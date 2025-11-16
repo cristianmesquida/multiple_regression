@@ -1,0 +1,567 @@
+# Lecture 4
+
+**Required packages**
+
+```{r message=FALSE}
+library(tidyverse)  # tidy and wrangle data
+library(broom)      # create tidy tables for statistical objects
+library(effectsize) # calculate effect size
+library(kableExtra) # create tidy tables
+library(faux)       # simulate factorial data
+library(tibble)     # create tables
+library(pscl)
+```
+
+## Non-Linear Regression
+
+Linear regression does not work for:
+
+-   binary outcomes: For example, predicting a disease (yes/no) based on the age, sex, smoking and blood pressure. Alternative: logistic regression
+
+-   discrete outcomes: For example, classify severity as low, medium or high. Alternative: ordinal logistic regression.
+
+-   count outcomes: For example, number of hospital visits, number of cigarettes smoked per day. Alternative: poisson regression or negative binomial regression
+
+Generalized linear models, which extend the linear regression model to work with binary, discrete and count outcomes and other data that cannot be fit well with normally distributed errors.
+
+```{r, fig.height=5}
+par(mfrow = c(2, 2))
+hist1 <- hist(rnorm(4000, 0, 1), main = "Normal distirbution", xlab = NULL)
+hist2 <- hist(rbinom(4000, 1, 0.05), main = "Binomial distirbution", xlab = NULL)
+hist3 <- hist(rgamma(4000, 1, 100), main = "Gamma distirbution", xlab = NULL)
+hist4 <- hist(rpois(4000, 0.5), main = "Poisson distirbution", xlab = NULL)
+
+```
+
+```{r, echo=FALSE}
+tibble(
+  Distribution = c("Normal", "Binomial", "Gamma", "Poisson"), 
+  Description = c(
+    "Standard linear regression is useful when data follows a bell-shaped distribution.",
+    "Binary logisitic regression.Useful when the response is binary (e.g., yes/no).",
+    "Gamma regression is useful when data is highly positively skewed.",
+    "Poisson regression is useful for count data.")
+  ) |> 
+  kable(caption = " Types of distirbutions") |> 
+  kable_styling(full_width = FALSE) %>%
+  column_spec(2, width = "14cm") 
+```
+
+### Logistic regression
+
+In linear regression, the outcome is a continuous variable, meaning that it can take on a range of numerical values. In contrast, logistic regression is used when the outcome is binary-that is, a categorical variable with exactly two possible values, such as "yes" or "nor", "success" or "failure", or "disease" or "no disease". To model binary data, we need to add two features to the base model `y` = `b0`+ `b1x1`:
+
+-   a nonlinear transformation that bounds the output between 0 and 1 (unlike `y` = `b0`+ `b1x1`, which is continuous), and
+
+-   a model that treats the resulting numbers as probabilities and maps them into random binary outcomes.
+
+Logistic regression models the probability of one of these outcomes occurring as a function of one or more predictor variables. For example, logistic regression can be used to model the relationship between between heart coronary disease (yes or no) and predictors such as age and blood pressure. Similarly, it can be used to model the probability of a student dropping out of school (yes or no) based socioeconomic factors.
+
+The model of a logistic regression
+
+In logistic regression, the model estimates the log-odds of the binary outcome `y` as a linear function of predictors:
+
+$$
+log(\frac{P(Y = 1)}{P(Y = 0)}) = b_0 + b_{1}x_{1} + b_{2}x_{2} + ... + b_{p}x_{p}
+$$
+
+-   `b0`: the intercept is log-odds of the outcome when all predictors are equal to zero. Exponentiating `b0` gives the odds of the outcome when all predictors are equal to 0.
+
+-   If `x` is a continuous predictor the regression coefficient `b` represents the change in the log-odds of the outcome per one-unit increase in `x`, holding all other predictors constant. Equivalently, `exp(b)` is the odds ratio (OR) for a one-unit increase in `x`.
+
+-   If `x` is a categorical predictor (with k levels) is represented using dummy variables, comparing each level to a reference category. The coefficient `b` for a given level represents the difference in log-odds of the outcome between that category and the reference category, again holding other variables constant. Equivalently, `exp(b)` is the odds ratio comparing that level to the reference level.
+
+#### Why not to use a linear regression when outcome is binary
+
+First let's simulate data where `disease` is a binary outcome and `cholesterol` is a continuous predictor.
+
+```{r}
+# for reproducibility
+set.seed(050990)
+
+# create a binomial variable
+disease <- rbinom(500, 1, 0.5)
+
+# create a continuous predictor
+cholesterol <- ifelse(disease == 1, rnorm(500, 220, 10), rnorm(500, 190, 10))
+
+# create a data set
+disease_df <- data.frame(disease = disease, cholesterol = cholesterol)
+
+head(disease_df, 5)
+```
+
+Now let's illustrate the relationship between `disease` and `cholesterol`.
+
+```{r, warning=FALSE}
+ggplot(disease_df, aes(y = disease, x = cholesterol)) +
+  geom_point() +
+  ylim(c(0, 1)) +
+  xlim(c(140, 300)) +
+  geom_smooth(method = lm, se = FALSE, colour = "red")
+```
+
+The straight line fitted using a linear model poorly fits the data. However, the red S-shaped curve better reflects the probability structure of binary data.
+
+```{r, warning=FALSE}
+ggplot(disease_df, aes(y = disease, x = cholesterol)) +
+  geom_point() +
+  ylim(c(0, 1)) +
+  xlim(c(140, 300)) +
+  geom_smooth(method = glm, method.args= list(family = "binomial"), se = FALSE)
+```
+
+Another key problem when using a linear regression model for binary outcomes is that the estimated values (interpreted as probabilities) can fall outside the range 0-1.
+
+```{r}
+linear_model <- lm(disease ~ cholesterol, disease_df)
+
+tidy(linear_model)
+```
+
+For example, when `cholesterol` is 0, the linear model estimates that the probability of disease is `r round(coef(linear_model)[1], 2)` - which is not a valid probability. In contrast, logistic regression constrains the estimated values within the range \[0, 1\] making it appropriate for classification tasks. In R we can fit a logistic linear regression using glm(family = binomial).
+
+<div>
+
+**Note**
+
+Contrast with Linear Regression:
+
+-   Linear regression minimizes the vertical distance (squared errors) between observed data points and the fitted line.
+
+-   Logistic regression maximizes the likelihood - the joint probability of the observed outcome given the model's predicted probabilities (i.e., the parameter estimates are those values which maximize the likelihood of the data which have been observed).
+
+</div>
+
+#### Interpreting logistic regression coefficients
+
+To interpret the logistic regression output, we need to transform the coefficients from the log-odds scale to OR and probabilities.
+
+1- Fit a logistic simple model:
+
+```{r}
+# fit a logistic simple model
+logistic_model1 <- glm(disease ~ cholesterol, family = binomial, data = disease_df)
+logistic_model1$coefficients
+```
+
+As it appears now, `(Intercept)` and `cholesterol` represent the log-odds of disease.
+
+2- Convert coefficients to Odds Ratios using `exp()`:
+
+```{r}
+or_b1 <- exp(coef(logistic_model1)[[2]])
+or_b1
+```
+
+Each 1-unit increase in cholesterol is associated with 1.34x higher odds of having the disease.
+
+3- Estimate the probability of `disease` for a given cholesterol level
+
+```{r}
+intercept <- coef(logistic_model1)[[1]]
+slope <- coef(logistic_model1)[[2]]
+
+# Cholesterol value
+cholesterol <- 200
+
+# Compute log-odds
+log_odds <- intercept + slope*cholesterol
+
+#Convert to probability of disease
+prob <- 1 / (1 + exp(-log_odds))
+prob
+```
+
+Alternatively, we can use `predict(type = response)` to calculate the probability of `disease`\`
+
+```{r}
+# Create a data frame with new values
+new_data <- data.frame(cholesterol = c(200, 250))
+
+# Use predict(type = "response") to estimate probabilities for any given value 
+predict(logistic_model1, new_data, type = "response")
+```
+
+#### About odds and odds ratios
+
+##### Odds
+
+The odds of an event are the ratio of how likely the event is to occur and how likely it is to not occur. Odds express likelihood relative to non-occurrence. Odds are calculated as:
+
+$$
+\frac {p}{(1-p)}
+$$where *p* is the probability of an event happening, and 1-*p* is the probability that the event does not happen. For example, if an event has a probability of 0.8, then the odds are:
+
+$$
+\frac {0.8}{(1-0.8)} = \frac {0.8}{0.2} = 4
+$$
+
+which is read as “4 to 1”.
+
+When the probability is greater than 50% (0.5), the odds are always greater than 1. When the probability of an event are is smaller than 50%, the odds are smaller than 1. When the probability is 50%, the odds equal 1.
+
+##### Odds ratios
+
+An odds ratio (OR) compares the odds of an event occurring in one group to the odds of the same event occuring in another group. It quantifies how much more (or less) likely the event is in one group compared to the other. For example, suppose the probability of disease is 0.25 for patients with high cholesterol and 0.15 for patients with adequate levels. The OR is, therefore, calculated as:
+
+```{r}
+or <- (0.25 / (1-0.25)) / (0.15 / (1-0.15))
+or
+```
+
+An OR of `r round(or,2)` implies that the first group has `r round(or-1,2)*100`% greater odds of developing the disease than the second group.
+
+##### An example using a frequency table
+
+| Exposure Status | Disease = Yes | Disease = No | Total |
+|-----------------|---------------|--------------|-------|
+| **Smoker**      | 30            | 70           | 100   |
+| **Non-smoker**  | 10            | 90           | 100   |
+
+-   Odds of disease among exposed:
+
+    $$
+    \frac {30}{70} = 0.43
+    $$
+
+-   Odds of disease among unexposed:
+
+    $$
+    \frac {10}{90} = 0.11
+    $$
+
+-   Odds Ratio:
+
+    $$
+    \frac {0.43} {0.11} = 3.86
+    $$
+
+Interpretation:
+
+-   The odds of disease in the exposed group are 0.43
+
+-   The odds of disease in the unexposed group are 0.11
+
+-   The odd ratio is 3.86, meaning the exposed group has 3.86 times higher odds of developing the disease compared to the unexposed group.
+
+#### Multiple logistic regression
+
+Just like in the linear regression, we can fit more than one predictor.
+
+##### Model with one continuous predictor and one categorical predictor
+
+Let's create a second predictor of disease (i.e., smoking):
+
+```{r}
+# for reproducibility
+set.seed(050990)
+
+# create a binary predictor (smoking)
+smoking <- ifelse(disease == 1, rbinom(500, 1, 0.7), rbinom(500, 1, 0.10))
+
+# add the new variable to the disease_df data set
+disease_df$smoking <- as.factor(smoking)
+
+head(disease_df, 5)
+```
+
+Let's fit model with both `cholesterol` and `smoking` as predictors of disease.
+
+```{r}
+logistic_model2 <- glm(disease ~ cholesterol + smoking, family = binomial, disease_df)
+
+tidy(logistic_model2)
+```
+
+Rather than using the `exp()` function to convert log-odds coefficient of each single predictor to an OR like this:
+
+```{r}
+exp(coef(logistic_model2)[[2]])
+```
+
+We can use `tidy()` in the `broom` package with the argument `exponentitate = TRUE` to obtain the ORs for all predictors at once
+
+```{r}
+res <- tidy(logistic_model2, exponentiate = TRUE)
+res
+```
+
+We can interpret these coefficients as follows:
+
+-   `cholesterol`: For each 1-unit increase, the odds of disease increase by `r (round(res[2,2], 2) - 1) * 100`%. This increase is statistically significant.
+
+-   `smoking1`: being a smoker (`smoking1 = 1`) increases the odds of disease by `r (round(res[3, 2], 2) - 1) * 100` % compared to a non-smoker. This increase is statistically significant.
+
+We can also obtain the confidence intervals (CIs) for the odds ratios by exponentiating the confidence intervals of the model coefficients:
+
+```{r}
+# subset rows 2 and 3 since these correspond to the predictors
+exp(confint(logistic_model2))[2:3,]
+```
+
+Alternatively, we can use `tidy()` in the **`broom`** package with the argument `conf.int = TRUE` (along with `exponentiate = TRUE`) to get the odds ratios and their confidence intervals all at once:
+
+```{r}
+tidy(logistic_model2, 
+     exponentiate = TRUE,
+     conf.int = TRUE)
+```
+
+Now let's simulate the probability of `disease`:
+
+```{r}
+# Get the levels from the original data
+levels(disease_df$smoking)
+
+# Create new values 
+new_data <- data.frame(
+  cholesterol = c(50, 50, 200, 200),
+  smoking = factor(rep(c(0,1), 2), levels = levels(disease_df$smoking))
+)
+
+# Add predictions
+predicted_prob <- predict(logistic_model2, new_data, type = "response")
+
+# Store both numeric and pretty-formatted percentages
+new_data$probability <- round(predicted_prob * 100, 2)  
+
+new_data
+```
+
+##### Model with an interaction between two predictors
+
+In this section, we analyze a dataset containing health records of patients to predict a binary outcome: whether a patient suffers from diabetes (`diabetes`: yes = 1 / no = 0).
+
+The goal is to explore how various physiological indicators—such as body mass index, blood pressure, and glucose levels—are associated with the likelihood of `diabetes`.
+
+Load and clean the data:
+
+```{r}
+data <- read.csv("https://raw.githubusercontent.com/plotly/datasets/master/diabetes.csv")
+
+colnames(data)<-tolower(colnames(data))
+
+data$outcome<-as.factor(data$outcome) 
+
+head(data, 5)
+```
+
+Fit a regression model with an interaction term between
+
+```{r}
+# Fit a multiple regression logistic model
+logistic_model3 <- glm(outcome ~ age + glucose*bmi, data = data, family="binomial")
+
+# Use tidy() to make it more readable
+res <- tidy(logistic_model3, exponentiate = TRUE)
+
+# Make estimates and p-values more interpretable
+res <- res |> 
+  mutate(estimate_round = round(estimate, 2),
+         p_value = round(p.value, 2)) |> 
+  select(term, estimate_round, std.error, statistic, p_value)
+
+res
+```
+
+Interpretation:
+
+-   `age`: Every 1-year increase in age increases the odds of `diabetes` by `r (round(res[2,2], 2) - 1)*100`%. This increase is statistically significant.
+
+-   `glucose`: Every 1-unit increase in glucose increases the odds of `diabetes` by `r (round(res[3, 2], 2) - 1)*100`%. This increase is statistically significant.
+
+-   `bmi`: Every 1-unit increase in body mass index increases the odds of `diabetes` by `r (round(res[4, 2], 2) - 1)*100`%. This increase is statistically significant.
+
+-   `glucos:bmi`: The effect of `glucose` on the odds of `diabetes` does not increase as `bmi` increases. The interaction effect is not statistically significant.
+
+#### Centering
+
+```{r}
+glm(outcome ~ glucose + bloodpressure, data = data, family="binomial") |> 
+tidy(exponentiate = TRUE)
+```
+
+`(intercept)` represents the odds of `diabetes` when all other variables are 0. However, interpreting `(intercept)` when `glucose = 0` and `bloodpressure = 0` is not meaningful as it is physiologically impossible. We can make `(intercept)` more interpretable by centering the predictors.
+
+```{r}
+# Center the predictors
+data$glucose_centered <- data$glucose - mean(data$glucose)
+data$bloodpressure_centered <- data$bloodpressure - mean(data$bloodpressure)
+
+# Refit the logistic regression model with the centered predictors
+res <- glm(outcome ~ glucose_centered + bloodpressure_centered, 
+           data = data, family="binomial") |> 
+  tidy(exponentiate = TRUE)
+
+res
+```
+
+Interpretation:
+
+-   `(intercept)`: When `glucose` and `bloodpressure` are at their average levels, the odds of `diabtes` are `r round(res[1,2], 2)`.
+
+-   `glucose_centered`: Every 1-unit increase in glucose significantly increases the odds of `diabetes` by `r (round(res[2,2], 2) - 1)*100`%.
+
+-   `bloodpressure`: Every 1-unit increase in blood pressure decreases the odds of `diabetes` by `r (round(res[3, 2], 4) - 1)*100`%. However, this is not statistically significant.
+
+#### Model fit
+
+Suppose we want to compare whether adding `bmi` to a simpler model increases the fit of the model:
+
+Simpler model
+
+```{r}
+model1 <- glm(outcome ~ glucose + bloodpressure + insulin, 
+             data = data, family="binomial") 
+
+summary(model1)
+```
+
+Model with `bmi`
+
+```{r}
+model2 <- glm(outcome ~ glucose + bloodpressure + insulin + bmi, 
+             data = data, family="binomial")
+
+summary(model2)
+```
+
+How do we choose the best model?
+
+##### AIC
+
+AIC (Akaike Information Criterion) is a metric used to compare and select the best model from a set of candidate models by balancing goodness-of-fit and complexity. It is calculated as follows:
+
+$$
+AIC = -2 * log(likelihood) + 2k
+$$
+
+In the AIC formula, `k` represents the number of parameters included in the model-including the intercept and all independent variables. The term `2k` serves as a penalty for model complexity. A lower AIC value indicates a model that achieves a better balance between fit and simplicity (parsimony). Therefore, among competing models, the one with the lowest AIC is generally preferred.
+
+`model1` had an AIC of `r summary(model1)$aic` whereas `model2`\` had an AIC of `r summary(model2)$aic`. Since `model2` has the lower AIC, it is the preferred model, as it achieves a better trade-off between model fit and complexity.
+
+##### Pseudo `R2`
+
+Note that now `glm()` does not provide `R2` compared with `lm()`. This is because we need to use another fit estimate when using `glm()`. Even though everyone agrees on how to calculate `R2` and associated *p*-value for linear Models, there is no consensus on how to calculate `R2` for logistic regression. There are more than 10 different ways to do it!
+
+One of the most common method is McFadden’s Pseudo `R2`. This method is very similar to the method in Linear Model. McFadden’s R squared measure is defined as:
+
+$$
+R^2_{McFadden} = \frac {1−log(Lc)} {log(Lnull)}
+$$
+
+where `Lc` denotes the (maximized) likelihood value from the current fitted model, and `Lnull` denotes the corresponding value but for the null model - the model with only an intercept and no covariates.
+
+The log-likelihood `R2` values go from 0, for poor models, to 1, for good models and it can be calculated with the function `pscl::pR2()`
+
+The log-likelihood `R2` for `model` would be:
+
+```{r}
+pR2(model1)
+```
+
+The log-likelihood `R2` for `model2` would be:
+
+```{r}
+pR2(model2)
+```
+
+Because `model2` has a higher McFadden's R^2^ value, we conclude that `model2` fits the data better than `model1`.
+
+##### Summary
+
+Key insights:
+
+-   AIC looks for the best trade-off between fit and complexity.
+
+-   Pseudo-R² only looks at improvement in fit (ignoring complexity)
+
+So, a model might:
+
+-   Have a higher pseudo-R²
+
+-   But a higher (worse) AIC if it’s too complex
+
+For example:
+
+| Model      | Log-Likelihood | Parameters | AIC | McFadden's pseudo R² |
+|------------|----------------|------------|-----|----------------------|
+| Null Model | -150           | 1          | 302 | 0.00                 |
+| Model A    | -100           | 3          | 206 | 0.33                 |
+| Model B    | -98            | 6          | 208 | 0.35                 |
+
+Despite Model B having a slightly higher McFadden's pseudo R^2^ compared to model A, its AIC value is higher. Since AIC penalizes complexity and is more robust criterion for model selection, we prefer Model A over Model B due to its lower AIC.
+
+#### Model comparison
+
+To statistically compare models, we can use `anova(test = "Chisq")`.
+
+```{r}
+anova(model1, model2, test = "Chisq") |> tidy()
+```
+
+Based on the Chi-square test from the likelihood ratio test, we conclude that `model2` fits the data significantly better than `model1` as the *p*-value is below 0.05.
+
+#### Differences between AIC and anova(test = "Chisq")
+
+| Feature | AIC | ANOVA (`test = "Chisq"`) |
+|------------------------|------------------------|------------------------|
+| **Purpose** | Model selection (fit vs. complexity) | Hypothesis testing (is extra predictor significant?) |
+| **Compares** | Any models (nested or not) | Only nested models (i.e., one is a subset of the other) |
+| **Penalty for complexity** | Yes (via AIC formula) | No — tests if added complexity improves fit significantly |
+| **Based on** | Log-likelihood | Likelihood ratio test (LRT) |
+| **Output** | AIC values | *p*-values |
+
+### Poisson regression
+
+In this section, we will briefly cover Poisson regression, a modelling technique used to analyze count data. To illustrate this, we will simulate a dataset where the outcome is the number of calls made by customers. We aim to predict `calls` using two predictors: `age` (age of customers) and `is_premium` (type of subscription: 1 = premium; 0 = regular customer).
+
+Let's simulate the dataset.
+
+```{r}
+# Simulate a simple dataset
+set.seed(123)
+
+n <- 100  # number of observations
+
+data <- data.frame(
+  age = sample(20:70, n, replace = TRUE),
+  is_premium = sample(0:1, n, replace = TRUE)
+)
+
+# Simulate expected call rate (log link)
+data$lambda <- exp(0.5 + 0.03 * data$age - 0.6 * data$is_premium)
+
+# Simulate call counts using Poisson distribution
+data$calls <- rpois(n, lambda = data$lambda)
+
+# View the first few rows
+head(data)
+```
+
+Now let's fit the poisson regression model using `glm(family = poisson())`.
+
+```{r}
+model <- glm(calls ~ age + is_premium, data = data, family = poisson())
+
+summary(model)
+```
+
+The coefficients are on the log scale of the rate and we use `exp()` to exponentiate coefficients to get Incidence Rate Ratios (IRRs):
+
+```{r}
+exp(coef(model))
+```
+
+Obtain 95% CI:
+
+```{r}
+exp(confint(model))
+```
+
+Interpretation
+
+-   `age`: For every additional year of age, the expected number of calls increases by about 3%, holding subscription type constant. It is statistically significant.
+
+-   `is_premium`: Premium customers have about 41% fewer calls than regular customers, holding age constant (since 0.59 \< 1, it's a decrease). It is statistically significant.

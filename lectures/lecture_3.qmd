@@ -1,0 +1,440 @@
+# Lecture 4
+
+**Load packages**
+
+```{r message=FALSE}
+# load packages
+library(tidyverse)  # tidy and wrangle data
+library(broom)      # create tidy tables for statistical objects
+library(effectsize) # calculate effect size
+library(kableExtra) # create tidy tables
+library(tibble)     # create tables
+library(rcompanion) # perform Tukey's ladder of power
+library(pscl)
+library(emmeans)    # multiple comparisons
+```
+
+**Load data**
+
+```{r}
+grades <- read.csv(here::here("data/grades.csv"))
+
+head(grades, 5)
+```
+
+For learning purposes, we will add two new variables: `sport`, which is categorical, and `study_time` which is numerical.
+
+```{r}
+# create a categotical variable
+grades$sport <- as.factor(rep(c("team", 
+                                "individual"), 
+                                each = 50))
+
+# ensure reproducibility for the below simulation
+set.seed(101301) 
+
+# create a variable "study_time" that is highly correlated with "grade"
+grades$study_time <- 0.9 * grades$grade + rnorm(nrow(grades), mean = 6, sd = 1)
+
+head(grades, 5)
+```
+
+## Marginal means and pairwise comparisons
+
+When we fit a model in R with a categorical predictor, by default, R uses dummy (treatment) coding, where the reference level is compared to all the other levels of the factor. Each coefficient in the model output represents the difference in the outcome variable between the reference level and one of the other levels.
+
+However, we often want to go beyond these default comparisons. For example, we might want to:
+
+\- Compare specific pairs of levels (not just against the reference);
+
+\- Test whether two levels differ across levels of another factor;
+
+ - Perform custom contrasts.
+
+These comparisons are not done automatically. To perform them, we can use the `emmeans` package, which offers functions to:
+
+\- Estimate marginal means;
+
+\- Conduct pairwise comparisons across all levels of a factor;
+
+\- Specify custom comparisons between levels or combinations of levels.
+
+In a 3 x 3 factorial design, there are six cell means, six marginal means, one grand mean and 15 possible pairwise comparisons.
+
+```{r factorial_table}
+tibble(
+  Percentage = c("10", "20", "30", ""),
+  Soya = c("cell mean", "cell mean", "cell mean", "Marginal_means"),
+  Milk = c("cell mean", "cell mean", "cell mean", "Marginal_means"),
+  Almond = c("cell mean", "cell mean", "cell mean", "Marginal_means"),
+  . = c("Marginal_means", "Marginal_means", "Marginal_means", "Grand_mean"),
+) |> 
+  kable(caption = "3 x 3 Factorial design", 
+        format = "html", 
+        booktabs = TRUE, 
+        escape = TRUE) |> 
+  kable_styling() |> 
+  row_spec(0, extra_css = "text-align: center;") |> 
+  column_spec(1:4, extra_css = "text-align: center;")
+```
+
+For k means, the number of pairwise comparisons is:
+
+$$
+{k \choose 2} \frac{k(k - 1)}{2}                         
+$$
+
+So with 9 cell means, the number of pairwise comparisons is:
+
+$$
+{9 \choose 2} \frac{9(9 - 1)}{2} = 36
+$$
+
+Let's simulate data for one dependent variable `muscle_mass` and two three-level categorical predictors `drink` and `percentage`- the latter referring to the percentage of protein in each type of drink.
+
+```{r}
+# for reproducibility
+set.seed(123)
+
+# Define levels
+drink <- c("soya", "milk", "almond")
+percentage <- c("10", "20", "30")
+
+# Create full 3×3 design with 15 observations per group
+data <- expand.grid(drink = drink,
+                    percentage = percentage,
+                    rep = 1:15)
+
+# Generate heart rate (hr) with different means per group
+data$muscle_mass <- with(data,
+  rnorm(
+    n = nrow(data),
+    mean = ifelse(drink == "milk", 3, 
+                  ifelse(drink == "almond", 1, 0)) +
+           ifelse(percentage == "10", 0,
+                  ifelse(percentage == "20", 1, 3)),
+        sd = 2
+        )
+)
+
+head(data)
+```
+
+Let's fit the model:
+
+```{r}
+model <- lm(muscle_mass ~ drink + percentage, data)
+tidy(model)
+```
+
+Let's compute the marginal means for the `drink` variable:
+
+```{r}
+emmeans(model, specs = "drink")
+```
+
+We can do the same for `percentage`:
+
+```{r}
+emmeans(model, specs = "percentage")
+```
+
+We can also do:
+
+```{r}
+emmeans(model, specs = "drink", by = "percentage")
+```
+
+The second part of the output, called `contrasts`, contains the comparisons of interest. It is this section that we are generally most interested in when answering a question about differences among groups. You can see which comparison is which via the `contrast`column.
+
+By default, `emmeans()` calculates all pairwise comparisons.
+
+```{r}
+em <- emmeans(model, specs = "drink")
+pairs(em)
+```
+
+The `emmeans()` package automatically adjusts for multiple comparisons. Since we did all pairwise comparisons the package used a Tukey adjustment. The `adjust` argument can be used to change the type of multiple comparisons adjustment. All available options are listed and described in the documentation for `summary.emmGrid` under the section *P-value adjustments*. For instance, one option is to skip multiple comparisons adjustments all together, using `adjust = "none"` The comparisons are accompanied by statistical tests of the null hypothesis of “no difference”, but lack confidence interval (CI) by default. You can add the 95% CI using `confint()`:
+
+```{r}
+pairs(em) |> 
+  confint()
+```
+
+We can also compare each level of `drink` for each level of `percentage`:
+
+```{r}
+em <- emmeans(model, specs = "drink", by = "percentage")
+
+# or, alternatively:
+# emmeans(model, specs = "drink", by = "percentage")
+
+pairs(em)
+```
+
+We can also compute all pairwise comparisons allowed by the study design:
+
+```{r}
+emm <- emmeans(model, ~ drink * percentage)
+
+pairs(emm)
+```
+
+Note that there are 36 pairwise comparisons which is the same number we previously determined.
+
+Or only perform comparisons of interest, such as performing comparisons against a reference level. Suppose we are only interested in comparing all types of drinks and percentages against "milk with 20% protein content.
+
+```{r}
+em <- emmeans(model, ~ drink*percentage)
+
+contrast(
+  em, 
+  method = "trt.vs.ctrl", 
+  ref = which(emm@grid$drink == "milk" & emm@grid$percentage == "20")
+  )
+
+```
+
+Suppose we are only interest in testing whether the different drinks differ in how they affect muscle growth when the protein content is 10%.
+
+```{r}
+model <- lm(muscle_mass ~ drink + as.factor(percentage), data)
+
+emm_10 <- emmeans(model, ~ drink, at = list(percentage = 10))
+
+emm_10 
+```
+
+```{r}
+contrast(
+  emm_10, 
+  method = "pairwise", 
+  adjust = NULL) # no multiple comparisons
+```
+
+## Testing non-zero effects
+
+Scientists typically test whether the difference between two interventions is greater than, less than, or simply different from **zero**. However, hypothesis testing is not limited to a null value of zero — we can test whether a difference is **greater than (superiority)**, **not worse than (non-inferiority)**, **equivalent to (equivalence)**, or **different from** **any non-zero value**, depending on the scientific question.
+
+For example, suppose we are interested in testing the following hypothesis:
+
+H: the difference in `muscle_mass` between "soya and almond" will not be greater than -1:
+
+```{r}
+comparisons <- pairs(emm_10, adjust = NULL) 
+comparisons
+```
+
+```{r}
+non_inferiority <- comparisons[2, ] |> # select first comparison: "soya and almond"
+  test(side = ">", null = -1)          # test if difference is ≤ -1 (non-inferiority test)
+
+non_inferiority
+```
+
+The p-value of `r non_inferiority[[7]]` is not smaller than 0.05 so we cannot reject the null hypothesis of inferiority. This conclusion is also supported by the 95% confidence interval, which includes –1 — the non-inferiority margin. Had the lower bound of the confidence interval been greater than –1, we could have rejected the null hypothesis of inferiority and concluded that almond is **not worse** than soya within the specified margin.
+
+```{r}
+summary(comparisons[2, ], infer = c(TRUE, TRUE))
+```
+
+Now suppose we are interested in testing the following hypothesis:
+
+H: the difference in `muscle_mass` between "milk and almond" will be greater than 1 (superiority):
+
+```{r}
+superiority <- comparisons[3, ] |> # select first comparison: "milk and almond"
+  test(side = ">", null = 1)  # test if difference is > 1 (superiority test)
+
+superiority
+```
+
+The p-value of `r superiority[[7]]` is smaller than 0.05 so we can reject the null hypothesis of non-superiority and therefore claim that milk is superior to almond. This conclusion is also supported by the 95% confidence interval, which excludes 1 — the non-superiority margin. Had the upper bound of the confidence interval been smaller than 1, we could have not rejected the null hypothesis of non-superiority.
+
+```{r}
+summary(comparisons[3, ], infer = c(TRUE, TRUE))
+```
+
+### Predictions
+
+In the sections above, the goal was to **quantify the influence of** several independent variables on a primary outcome. To do this, we used observed data and focused on understanding relationships — for example, how variables like `GPA` or `nclicks` relate to students' final grades. This approach aligns with **explanatory modeling**, where the emphasis is on interpreting the influence of predictors.
+
+However, if our goal shifts to estimating a student's grade based on **new or unobserved data**, then we're moving into **predictive modeling**. In this context, we're less concerned with the underlying relationships and more focused on the **accuracy of predictions**. In R, we can use `predict()` on a fitted model to generate grade estimates for new cases. For instance, in the `grades` data set, the range of `nclicks` was:
+
+```{r}
+range(grades$nclicks)
+```
+
+None of the students clicked more than 129 times.
+
+We can use `predict()` to estimate the grade for a higher number of clicks than those observed in the original dataset.
+
+```{r}
+# Fit a model
+model1 <- lm(grade ~ nclicks, grades)
+
+# Create a new data set with new data
+new_values <- data.frame(nclicks = c(150, 160, 170))
+
+# Use the fitted model to predict grade based on the new data
+predict(model1, new_values)
+
+```
+
+`predict()` returns **three estimated grades**, one for each new value of `nclicks` in the `new_values` data frame.
+
+We can also use `predict()` with multiple predictors, allowing us to estimate a student's grade using a combination of values.
+
+Before doing so, we might want to inspect the range of one of the new predictors. For example, to check the observed range of the `lecture` variable:
+
+```{r}
+range(grades$lecture)
+```
+
+Suppose we now want to predict grades using both `nclicks` and `lecture`:
+
+```{r}
+# Fit a model with the predictors of interest
+model2 <- lm(grade ~ nclicks + lecture, grades)
+
+# Create a new data set with new data for each predictor
+new_values <- data.frame(
+  nclicks = c(150, 160, 170),
+  lecture = c(12, 15, 18)
+)
+
+predict(model2, new_values)
+```
+
+`predict()` again returns three predicted grades, each corresponding to the combination of `nclicks` and `lecture` values in the `new_values` data frame.
+
+## Transformations
+
+### Log transformation
+
+Sometimes the data we collect or analyse does not follow a linear pattern. A common example in exercise science is the gain in strength over time. Initially, strength tends to increase rapidly, but these gains gradually slow and approach a plateau.
+
+```{r linear-strength-gains}
+# for reproducibility
+set.seed(0001)
+
+# set parameters
+b0 <- 60
+b1 <- 4
+years <- seq(1:36)
+
+# simulate strength gains over a 36-month period 
+data <- data.frame(
+  x = years,
+  y = b0 + b1 * log(years) + rnorm(length(years), 0, 0.5)
+)
+
+# plot data
+ggplot(data, aes(x = x, y = y)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, colour = "red") +
+  labs(y = "strength gain", x = "months")
+```
+
+If we fit a simple linear regression to this type of data, the straight line will fail to capture this curved pattern, resulting in a poor fit compared to a model that accounts for the non-linear relationship.
+
+```{r}
+summary(lm(y ~ x, data))
+```
+
+When we fit a model that accounts for the non-linear relationship—such as applying a log transformation to capture the rapid early gains and later plateau—the resulting curve provides a far better representation of the observed strength gains than a simple linear model.
+
+```{r}
+# plot data
+ggplot(data, aes(x = x, y = y)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ log(x), se = FALSE) +
+  labs(y = "strength gain", x = "months")
+```
+
+Fitting a model that better captures the true shape of the data generally results in smaller residuals improving the goodness of fit metrics like the Residual Standard Error (RSE) and *R*^2^. Briefly, RSE is the **square root of the mean square error** and it shows It shows how much the observed values deviate from the predicted values. The lower the value the better a regression model fits data.
+
+```{r}
+linear_model <- lm(y ~ x, data)
+log_model <- lm(y ~ log(x), data)
+
+
+tibble::tibble(
+  model = c("linear model", "log model"),
+  RSE = c(
+    sqrt(sum(resid(linear_model)^2) / linear_model$df.residual),
+    sqrt(sum(resid(log_model)^2) / log_model$df.residual)),
+  R_squared = c(
+    summary(linear_model)$r.squared,
+    summary(log_model)$r.squared)
+  ) |> 
+  kable(format = "html", 
+        booktabs = TRUE, 
+        escape = TRUE) |> 
+  kable_styling()
+```
+
+### Tukkey's ladder of powers
+
+The Tukkey ladder of powers (sometimes called the Bulging Rule) is a way to change the shape of a skewed distribution so that it becomes normal or nearly-normal. It can also help to reduce error variability (heteroscedasticity).
+
+Tukkey (1977) created a table of powers (numbers to which data can be raised). It’s possible to have an infinite number of powers, but very few are actually in common use. @tbl-power-transf shows the most commonly used transformations, with exponents ranging from -2 to 2.
+
+```{r, tbl-power-transf, echo=FALSE}
+
+tibble(
+  Power = c(2, 1, 1/2, 0, -0.5, -1, -2), 
+  Transformation = c("Y^2", 
+                     "Y", 
+                     "1/sqrt(Y)", 
+                     "log(Y)", 
+                     "-1/sqrt(Y)", 
+                     "1/Y", 
+                     "1/Y^2"),
+  Name = c("Square", 
+           "Identity", 
+           "Reciprocal sqrt", 
+           "Logarithm", 
+           "Reciprocal root",
+           "Reciprocal", 
+           "Reciprocal square")
+) |> 
+  kable(caption = "Types of power transformations", 
+        format = "html", 
+        booktabs = TRUE, 
+        escape = TRUE) |> 
+  kable_styling() 
+```
+
+**Example**
+
+Let's simulate right-skewed data:
+
+```{r}
+# for reproducibility
+set.seed(123)
+
+# simulate right-skewed data
+y <- rexp(200, rate = 0.5)  
+
+# plot data to see distribution
+hist(y, breaks = 20)
+```
+
+This histogram shows that the data is not normally distributed, which we can also confirm using `shapiro.test()`:
+
+```{r}
+# asses normality of data
+shapiro.test(y) |> 
+  tidy() |> 
+  mutate(pvalue = format(p.value, scientific = FALSE)) |> 
+  select(-p.value)
+```
+
+Since the data is skewed, we can apply Tukey’s power transformations using `transformTukey()` to try to normalize it. `transformTukey()` simply loops through *lamdba* values and chooses the lambda that results in best normality. For example:
+
+```{r transformtukey}
+transformTukey(y, plotit = TRUE)
+```
+
+The argument `plotit = TRUE` produces plots of: (1) Shapiro-Wilks W vs. lambda, (2) histogram of transformed values and Q-Q plot of transformed values.

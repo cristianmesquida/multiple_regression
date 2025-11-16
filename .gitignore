@@ -1,0 +1,5 @@
+/.quarto/
+.Rproj.user
+.idea/
+books/
+.DS_Store

@@ -1,0 +1,5 @@
+# Preface {.unnumbered}
+
+My name is Cristian Mesquida and I am a postdoctoral researcher at the Human-Technology Interaction group. I am a lecturer in Behavioral Research Methods (BRM) 2 and 3, where I teach multiple linear regression and power analysis. This Quarto book compiles the materials for Multiple Regression in BRM 2 (Lectures 1–3) and BRM 3 (Lectures 1–2).
+
+If you encounter any errors, ambiguities or anything unclear, please contact me at [c.mesquida.caldentey\@tue.nl](mailto:c.mesquida.caldentey@tue.nl). or, preferably, open an issue in the Github repository:
