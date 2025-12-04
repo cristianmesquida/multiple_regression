@@ -1,8 +1,13 @@
-# Lecture 4
+---
+title: "Multiple regression 3 (Lecture 3)"
+---
 
 **Load packages**
 
-```{r message=FALSE}
+```{r}
+#| message: false
+#| warning: false
+
 # load packages
 library(tidyverse)  # tidy and wrangle data
 library(broom)      # create tidy tables for statistical objects
@@ -49,7 +54,7 @@ However, we often want to go beyond these default comparisons. For example, we m
 
 \- Test whether two levels differ across levels of another factor;
 
- - Perform custom contrasts.
+-   Perform custom contrasts.
 
 These comparisons are not done automatically. To perform them, we can use the `emmeans` package, which offers functions to:
 

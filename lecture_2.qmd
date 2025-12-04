@@ -1,8 +1,13 @@
-# Lecture 2
+---
+title: "Multiple regression 2 (Lecture 2)"
+---
 
 **Load packages**
 
-```{r message=FALSE}
+```{r}
+#| message: false
+#| warning: false
+
 library(tidyverse)  # tidy and wrangle data
 library(broom)      # create tidy tables for statistical objects
 library(effectsize) # calculate effect size
