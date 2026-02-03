@@ -1,5 +1,5 @@
 ---
-title: "Multiple regression 4 (Lecture 4)"
+title: "Non-linear Regression"
 ---
 
 **Required packages**

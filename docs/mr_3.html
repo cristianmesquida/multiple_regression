@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.42">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>3&nbsp; Multiple regression 3 (Lecture 3) – Muliple Regression</title>
+<title>4&nbsp; Multiple regression 3 (Lecture 3) – Muliple Regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,8 +60,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lecture_4.html" rel="next">
-<link href="./lecture_2.html" rel="prev">
+<link href="./mr_4.html" rel="next">
+<link href="./mr_2.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -131,7 +131,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture_3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mr_3.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -160,26 +160,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Multiple regression 1 (Lecture 1)</span></span></a>
+  <a href="./recap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">A Recap on regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span></span></a>
+  <a href="./mr_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to multiple regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_3.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></span></a>
+  <a href="./mr_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 4 (Lecture 4)</span></span></a>
+  <a href="./mr_3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mr_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-linear Regression</span></span></a>
   </div>
 </li>
     </ul>
@@ -190,18 +196,18 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#marginal-means-and-pairwise-comparisons" id="toc-marginal-means-and-pairwise-comparisons" class="nav-link active" data-scroll-target="#marginal-means-and-pairwise-comparisons"><span class="header-section-number">3.1</span> Marginal means and pairwise comparisons</a></li>
+<li><a href="#marginal-means-and-pairwise-comparisons" id="toc-marginal-means-and-pairwise-comparisons" class="nav-link active" data-scroll-target="#marginal-means-and-pairwise-comparisons"><span class="header-section-number">4.1</span> Marginal means and pairwise comparisons</a></li>
   <li>
-<a href="#testing-non-zero-effects" id="toc-testing-non-zero-effects" class="nav-link" data-scroll-target="#testing-non-zero-effects"><span class="header-section-number">3.2</span> Testing non-zero effects</a>
+<a href="#testing-non-zero-effects" id="toc-testing-non-zero-effects" class="nav-link" data-scroll-target="#testing-non-zero-effects"><span class="header-section-number">4.2</span> Testing non-zero effects</a>
   <ul class="collapse">
-<li><a href="#predictions" id="toc-predictions" class="nav-link" data-scroll-target="#predictions"><span class="header-section-number">3.2.1</span> Predictions</a></li>
+<li><a href="#predictions" id="toc-predictions" class="nav-link" data-scroll-target="#predictions"><span class="header-section-number">4.2.1</span> Predictions</a></li>
   </ul>
 </li>
   <li>
-<a href="#transformations" id="toc-transformations" class="nav-link" data-scroll-target="#transformations"><span class="header-section-number">3.3</span> Transformations</a>
+<a href="#transformations" id="toc-transformations" class="nav-link" data-scroll-target="#transformations"><span class="header-section-number">4.3</span> Transformations</a>
   <ul class="collapse">
-<li><a href="#log-transformation" id="toc-log-transformation" class="nav-link" data-scroll-target="#log-transformation"><span class="header-section-number">3.3.1</span> Log transformation</a></li>
-  <li><a href="#tukkeys-ladder-of-powers" id="toc-tukkeys-ladder-of-powers" class="nav-link" data-scroll-target="#tukkeys-ladder-of-powers"><span class="header-section-number">3.3.2</span> Tukkey’s ladder of powers</a></li>
+<li><a href="#log-transformation" id="toc-log-transformation" class="nav-link" data-scroll-target="#log-transformation"><span class="header-section-number">4.3.1</span> Log transformation</a></li>
+  <li><a href="#tukkeys-ladder-of-powers" id="toc-tukkeys-ladder-of-powers" class="nav-link" data-scroll-target="#tukkeys-ladder-of-powers"><span class="header-section-number">4.3.2</span> Tukkey’s ladder of powers</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -209,7 +215,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span>
+<span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span>
 </h1>
 </div>
 
@@ -273,8 +279,8 @@ window.Quarto = {
 5 2.313335 1.0222222       4      66  team   8.381570</code></pre>
 </div>
 </div>
-<section id="marginal-means-and-pairwise-comparisons" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="marginal-means-and-pairwise-comparisons">
-<span class="header-section-number">3.1</span> Marginal means and pairwise comparisons</h2>
+<section id="marginal-means-and-pairwise-comparisons" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="marginal-means-and-pairwise-comparisons">
+<span class="header-section-number">4.1</span> Marginal means and pairwise comparisons</h2>
 <p>When we fit a model in R with a categorical predictor, by default, R uses dummy (treatment) coding, where the reference level is compared to all the other levels of the factor. Each coefficient in the model output represents the difference in the outcome variable between the reference level and one of the other levels.</p>
 <p>However, we often want to go beyond these default comparisons. For example, we might want to:</p>
 <p>- Compare specific pairs of levels (not just against the reference);</p>
@@ -615,8 +621,8 @@ Confidence level used: 0.95 </code></pre>
  milk - almond    2.171 0.378 130   5.738  &lt;.0001</code></pre>
 </div>
 </div>
-</section><section id="testing-non-zero-effects" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="testing-non-zero-effects">
-<span class="header-section-number">3.2</span> Testing non-zero effects</h2>
+</section><section id="testing-non-zero-effects" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="testing-non-zero-effects">
+<span class="header-section-number">4.2</span> Testing non-zero effects</h2>
 <p>Scientists typically test whether the difference between two interventions is greater than, less than, or simply different from&nbsp;<strong>zero</strong>. However, hypothesis testing is not limited to a null value of zero — we can test whether a difference is <strong>greater than (superiority)</strong>, <strong>not worse than (non-inferiority)</strong>, <strong>equivalent to (equivalence)</strong>, or <strong>different from</strong> <strong>any non-zero value</strong>, depending on the scientific question.</p>
 <p>For example, suppose we are interested in testing the following hypothesis:</p>
 <p>H: the difference in <code>muscle_mass</code> between “soya and almond” will not be greater than -1:</p>
@@ -676,8 +682,8 @@ P values are right-tailed </code></pre>
 Confidence level used: 0.95 </code></pre>
 </div>
 </div>
-<section id="predictions" class="level3" data-number="3.2.1"><h3 data-number="3.2.1" class="anchored" data-anchor-id="predictions">
-<span class="header-section-number">3.2.1</span> Predictions</h3>
+<section id="predictions" class="level3" data-number="4.2.1"><h3 data-number="4.2.1" class="anchored" data-anchor-id="predictions">
+<span class="header-section-number">4.2.1</span> Predictions</h3>
 <p>In the sections above, the goal was to <strong>quantify the influence of</strong> several independent variables on a primary outcome. To do this, we used observed data and focused on understanding relationships — for example, how variables like <code>GPA</code> or <code>nclicks</code> relate to students’ final grades. This approach aligns with <strong>explanatory modeling</strong>, where the emphasis is on interpreting the influence of predictors.</p>
 <p>However, if our goal shifts to estimating a student’s grade based on <strong>new or unobserved data</strong>, then we’re moving into <strong>predictive modeling</strong>. In this context, we’re less concerned with the underlying relationships and more focused on the <strong>accuracy of predictions</strong>. In R, we can use <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> on a fitted model to generate grade estimates for new cases. For instance, in the <code>grades</code> data set, the range of <code>nclicks</code> was:</p>
 <div class="cell">
@@ -729,10 +735,10 @@ Confidence level used: 0.95 </code></pre>
 </div>
 </div>
 <p><code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> again returns three predicted grades, each corresponding to the combination of <code>nclicks</code> and <code>lecture</code> values in the <code>new_values</code> data frame.</p>
-</section></section><section id="transformations" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="transformations">
-<span class="header-section-number">3.3</span> Transformations</h2>
-<section id="log-transformation" class="level3" data-number="3.3.1"><h3 data-number="3.3.1" class="anchored" data-anchor-id="log-transformation">
-<span class="header-section-number">3.3.1</span> Log transformation</h3>
+</section></section><section id="transformations" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="transformations">
+<span class="header-section-number">4.3</span> Transformations</h2>
+<section id="log-transformation" class="level3" data-number="4.3.1"><h3 data-number="4.3.1" class="anchored" data-anchor-id="log-transformation">
+<span class="header-section-number">4.3.1</span> Log transformation</h3>
 <p>Sometimes the data we collect or analyse does not follow a linear pattern. A common example in exercise science is the gain in strength over time. Initially, strength tends to increase rapidly, but these gains gradually slow and approach a plateau.</p>
 <div class="cell">
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
@@ -756,7 +762,7 @@ Confidence level used: 0.95 </code></pre>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"strength gain"</span>, x <span class="op">=</span> <span class="st">"months"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="lecture_3_files/figure-html/linear-strength-gains-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="mr_3_files/figure-html/linear-strength-gains-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -794,7 +800,7 @@ F-statistic:   139 on 1 and 34 DF,  p-value: 1.459e-13</code></pre>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"strength gain"</span>, x <span class="op">=</span> <span class="st">"months"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="lecture_3_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="mr_3_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -840,14 +846,14 @@ F-statistic:   139 on 1 and 34 DF,  p-value: 1.459e-13</code></pre>
 </table>
 </div>
 </div>
-</section><section id="tukkeys-ladder-of-powers" class="level3" data-number="3.3.2"><h3 data-number="3.3.2" class="anchored" data-anchor-id="tukkeys-ladder-of-powers">
-<span class="header-section-number">3.3.2</span> Tukkey’s ladder of powers</h3>
+</section><section id="tukkeys-ladder-of-powers" class="level3" data-number="4.3.2"><h3 data-number="4.3.2" class="anchored" data-anchor-id="tukkeys-ladder-of-powers">
+<span class="header-section-number">4.3.2</span> Tukkey’s ladder of powers</h3>
 <p>The Tukkey ladder of powers (sometimes called the Bulging Rule) is a way to change the shape of a skewed distribution so that it becomes normal or nearly-normal. It can also help to reduce error variability (heteroscedasticity).</p>
-<p>Tukkey (1977) created a table of powers (numbers to which data can be raised). It’s possible to have an infinite number of powers, but very few are actually in common use. <a href="#tbl-power-transf" class="quarto-xref">Table&nbsp;<span>3.1</span></a> shows the most commonly used transformations, with exponents ranging from -2 to 2.</p>
+<p>Tukkey (1977) created a table of powers (numbers to which data can be raised). It’s possible to have an infinite number of powers, but very few are actually in common use. <a href="#tbl-power-transf" class="quarto-xref">Table&nbsp;<span>4.1</span></a> shows the most commonly used transformations, with exponents ranging from -2 to 2.</p>
 <div class="cell">
 <div id="tbl-power-transf" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-power-transf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3.1: Types of power transformations
+Table&nbsp;4.1: Types of power transformations
 </figcaption><div aria-describedby="tbl-power-transf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
@@ -912,7 +918,7 @@ Table&nbsp;3.1: Types of power transformations
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">y</span>, breaks <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="lecture_3_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="mr_3_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -936,7 +942,7 @@ Table&nbsp;3.1: Types of power transformations
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rcompanion/man/transformTukey.html">transformTukey</a></span><span class="op">(</span><span class="va">y</span>, plotit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="lecture_3_files/figure-html/transformtukey-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="mr_3_files/figure-html/transformtukey-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -951,13 +957,13 @@ if (lambda &lt;  0){TRANS = -1 * x ^ lambda} </code></pre>
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="lecture_3_files/figure-html/transformtukey-2.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="mr_3_files/figure-html/transformtukey-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="lecture_3_files/figure-html/transformtukey-3.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="mr_3_files/figure-html/transformtukey-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1413,13 +1419,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./lecture_2.html" class="pagination-link" aria-label="Multiple regression 2 (Lecture 2)">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span></span>
+      <a href="./mr_2.html" class="pagination-link" aria-label="Multiple regression 2 (Lecture 2)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lecture_4.html" class="pagination-link" aria-label="Multiple regression 4 (Lecture 4)">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 4 (Lecture 4)</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./mr_4.html" class="pagination-link" aria-label="Non-linear Regression">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-linear Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

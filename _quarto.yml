@@ -1,5 +1,6 @@
 project:
   type: book
+  output-dir: docs
 
 book:
   title: "Muliple Regression"
@@ -7,10 +8,11 @@ book:
   date: "11/16/2025"
   chapters:
     - index.qmd
-    - lecture_1.qmd
-    - lecture_2.qmd
-    - lecture_3.qmd
-    - lecture_4.qmd
+    - recap.qmd
+    - mr_1.qmd
+    - mr_2.qmd
+    - mr_3.qmd
+    - mr_4.qmd
 
 format:
   html:

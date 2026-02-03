@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.42">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>4&nbsp; Multiple regression 4 (Lecture 4) – Muliple Regression</title>
+<title>5&nbsp; Non-linear Regression – Muliple Regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lecture_3.html" rel="prev">
+<link href="./mr_3.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -130,7 +130,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture_4.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 4 (Lecture 4)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mr_4.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-linear Regression</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -159,26 +159,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Multiple regression 1 (Lecture 1)</span></span></a>
+  <a href="./recap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">A Recap on regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span></span></a>
+  <a href="./mr_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to multiple regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></span></a>
+  <a href="./mr_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_4.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 4 (Lecture 4)</span></span></a>
+  <a href="./mr_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mr_4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-linear Regression</span></span></a>
   </div>
 </li>
     </ul>
@@ -190,10 +196,10 @@ window.Quarto = {
    
   <ul>
 <li>
-<a href="#non-linear-regression" id="toc-non-linear-regression" class="nav-link active" data-scroll-target="#non-linear-regression"><span class="header-section-number">4.1</span> Non-Linear Regression</a>
+<a href="#non-linear-regression" id="toc-non-linear-regression" class="nav-link active" data-scroll-target="#non-linear-regression"><span class="header-section-number">5.1</span> Non-Linear Regression</a>
   <ul class="collapse">
-<li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="header-section-number">4.1.1</span> Logistic regression</a></li>
-  <li><a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression"><span class="header-section-number">4.1.2</span> Poisson regression</a></li>
+<li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="header-section-number">5.1.1</span> Logistic regression</a></li>
+  <li><a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression"><span class="header-section-number">5.1.2</span> Poisson regression</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -201,7 +207,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 4 (Lecture 4)</span>
+<span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-linear Regression</span>
 </h1>
 </div>
 
@@ -226,8 +232,8 @@ window.Quarto = {
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>     <span class="co"># create tables</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/atahk/pscl">pscl</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="non-linear-regression" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="non-linear-regression">
-<span class="header-section-number">4.1</span> Non-Linear Regression</h2>
+<section id="non-linear-regression" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="non-linear-regression">
+<span class="header-section-number">5.1</span> Non-Linear Regression</h2>
 <p>Linear regression does not work for:</p>
 <ul>
 <li><p>binary outcomes: For example, predicting a disease (yes/no) based on the age, sex, smoking and blood pressure. Alternative: logistic regression</p></li>
@@ -243,7 +249,7 @@ window.Quarto = {
 <span><span class="va">hist4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span><span class="fl">4000</span>, <span class="fl">0.5</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Poisson distirbution"</span>, xlab <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="lecture_4_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="mr_4_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -277,8 +283,8 @@ window.Quarto = {
 </table>
 </div>
 </div>
-<section id="logistic-regression" class="level3" data-number="4.1.1"><h3 data-number="4.1.1" class="anchored" data-anchor-id="logistic-regression">
-<span class="header-section-number">4.1.1</span> Logistic regression</h3>
+<section id="logistic-regression" class="level3" data-number="5.1.1"><h3 data-number="5.1.1" class="anchored" data-anchor-id="logistic-regression">
+<span class="header-section-number">5.1.1</span> Logistic regression</h3>
 <p>In linear regression, the outcome is a continuous variable, meaning that it can take on a range of numerical values. In contrast, logistic regression is used when the outcome is binary-that is, a categorical variable with exactly two possible values, such as “yes” or “nor”, “success” or “failure”, or “disease” or “no disease”. To model binary data, we need to add two features to the base model <code>y</code> = <code>b0</code>+ <code>b1x1</code>:</p>
 <ul>
 <li><p>a nonlinear transformation that bounds the output between 0 and 1 (unlike <code>y</code> = <code>b0</code>+ <code>b1x1</code>, which is continuous), and</p></li>
@@ -295,8 +301,8 @@ log(\frac{P(Y = 1)}{P(Y = 0)}) = b_0 + b_{1}x_{1} + b_{2}x_{2} + ... + b_{p}x_{p
 <li><p>If <code>x</code> is a continuous predictor the regression coefficient <code>b</code> represents the change in the log-odds of the outcome per one-unit increase in <code>x</code>, holding all other predictors constant. Equivalently, <code>exp(b)</code> is the odds ratio (OR) for a one-unit increase in <code>x</code>.</p></li>
 <li><p>If <code>x</code> is a categorical predictor (with k levels) is represented using dummy variables, comparing each level to a reference category. The coefficient <code>b</code> for a given level represents the difference in log-odds of the outcome between that category and the reference category, again holding other variables constant. Equivalently, <code>exp(b)</code> is the odds ratio comparing that level to the reference level.</p></li>
 </ul>
-<section id="why-not-to-use-a-linear-regression-when-outcome-is-binary" class="level4" data-number="4.1.1.1"><h4 data-number="4.1.1.1" class="anchored" data-anchor-id="why-not-to-use-a-linear-regression-when-outcome-is-binary">
-<span class="header-section-number">4.1.1.1</span> Why not to use a linear regression when outcome is binary</h4>
+<section id="why-not-to-use-a-linear-regression-when-outcome-is-binary" class="level4" data-number="5.1.1.1"><h4 data-number="5.1.1.1" class="anchored" data-anchor-id="why-not-to-use-a-linear-regression-when-outcome-is-binary">
+<span class="header-section-number">5.1.1.1</span> Why not to use a linear regression when outcome is binary</h4>
 <p>First let’s simulate data where <code>disease</code> is a binary outcome and <code>cholesterol</code> is a continuous predictor.</p>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
@@ -333,7 +339,7 @@ log(\frac{P(Y = 1)}{P(Y = 0)}) = b_0 + b_{1}x_{1} + b_{2}x_{2} + ... + b_{p}x_{p
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="lecture_4_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="mr_4_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -350,7 +356,7 @@ log(\frac{P(Y = 1)}{P(Y = 0)}) = b_0 + b_{1}x_{1} + b_{2}x_{2} + ... + b_{p}x_{p
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="lecture_4_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="mr_4_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -377,8 +383,8 @@ log(\frac{P(Y = 1)}{P(Y = 0)}) = b_0 + b_{1}x_{1} + b_{2}x_{2} + ... + b_{p}x_{p
 <li><p>Logistic regression maximizes the likelihood - the joint probability of the observed outcome given the model’s predicted probabilities (i.e., the parameter estimates are those values which maximize the likelihood of the data which have been observed).</p></li>
 </ul>
 </div>
-</section><section id="interpreting-logistic-regression-coefficients" class="level4" data-number="4.1.1.2"><h4 data-number="4.1.1.2" class="anchored" data-anchor-id="interpreting-logistic-regression-coefficients">
-<span class="header-section-number">4.1.1.2</span> Interpreting logistic regression coefficients</h4>
+</section><section id="interpreting-logistic-regression-coefficients" class="level4" data-number="5.1.1.2"><h4 data-number="5.1.1.2" class="anchored" data-anchor-id="interpreting-logistic-regression-coefficients">
+<span class="header-section-number">5.1.1.2</span> Interpreting logistic regression coefficients</h4>
 <p>To interpret the logistic regression output, we need to transform the coefficients from the log-odds scale to OR and probabilities.</p>
 <p>1- Fit a logistic simple model:</p>
 <div class="cell">
@@ -430,10 +436,10 @@ log(\frac{P(Y = 1)}{P(Y = 0)}) = b_0 + b_{1}x_{1} + b_{2}x_{2} + ... + b_{p}x_{p
 0.2418507 0.9999988 </code></pre>
 </div>
 </div>
-</section><section id="about-odds-and-odds-ratios" class="level4" data-number="4.1.1.3"><h4 data-number="4.1.1.3" class="anchored" data-anchor-id="about-odds-and-odds-ratios">
-<span class="header-section-number">4.1.1.3</span> About odds and odds ratios</h4>
-<section id="odds" class="level5" data-number="4.1.1.3.1"><h5 data-number="4.1.1.3.1" class="anchored" data-anchor-id="odds">
-<span class="header-section-number">4.1.1.3.1</span> Odds</h5>
+</section><section id="about-odds-and-odds-ratios" class="level4" data-number="5.1.1.3"><h4 data-number="5.1.1.3" class="anchored" data-anchor-id="about-odds-and-odds-ratios">
+<span class="header-section-number">5.1.1.3</span> About odds and odds ratios</h4>
+<section id="odds" class="level5" data-number="5.1.1.3.1"><h5 data-number="5.1.1.3.1" class="anchored" data-anchor-id="odds">
+<span class="header-section-number">5.1.1.3.1</span> Odds</h5>
 <p>The odds of an event are the ratio of how likely the event is to occur and how likely it is to not occur. Odds express likelihood relative to non-occurrence. Odds are calculated as:</p>
 <p><span class="math display">\[
 \frac {p}{(1-p)}
@@ -443,8 +449,8 @@ log(\frac{P(Y = 1)}{P(Y = 0)}) = b_0 + b_{1}x_{1} + b_{2}x_{2} + ... + b_{p}x_{p
 \]</span></p>
 <p>which is read as “4 to 1”.</p>
 <p>When the probability is greater than 50% (0.5), the odds are always greater than 1. When the probability of an event are is smaller than 50%, the odds are smaller than 1. When the probability is 50%, the odds equal 1.</p>
-</section><section id="odds-ratios" class="level5" data-number="4.1.1.3.2"><h5 data-number="4.1.1.3.2" class="anchored" data-anchor-id="odds-ratios">
-<span class="header-section-number">4.1.1.3.2</span> Odds ratios</h5>
+</section><section id="odds-ratios" class="level5" data-number="5.1.1.3.2"><h5 data-number="5.1.1.3.2" class="anchored" data-anchor-id="odds-ratios">
+<span class="header-section-number">5.1.1.3.2</span> Odds ratios</h5>
 <p>An odds ratio (OR) compares the odds of an event occurring in one group to the odds of the same event occuring in another group. It quantifies how much more (or less) likely the event is in one group compared to the other. For example, suppose the probability of disease is 0.25 for patients with high cholesterol and 0.15 for patients with adequate levels. The OR is, therefore, calculated as:</p>
 <div class="cell">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">or</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">0.25</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="fl">0.25</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">0.15</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="fl">0.15</span><span class="op">)</span><span class="op">)</span></span>
@@ -454,8 +460,8 @@ log(\frac{P(Y = 1)}{P(Y = 0)}) = b_0 + b_{1}x_{1} + b_{2}x_{2} + ... + b_{p}x_{p
 </div>
 </div>
 <p>An OR of 1.89 implies that the first group has 89% greater odds of developing the disease than the second group.</p>
-</section><section id="an-example-using-a-frequency-table" class="level5" data-number="4.1.1.3.3"><h5 data-number="4.1.1.3.3" class="anchored" data-anchor-id="an-example-using-a-frequency-table">
-<span class="header-section-number">4.1.1.3.3</span> An example using a frequency table</h5>
+</section><section id="an-example-using-a-frequency-table" class="level5" data-number="5.1.1.3.3"><h5 data-number="5.1.1.3.3" class="anchored" data-anchor-id="an-example-using-a-frequency-table">
+<span class="header-section-number">5.1.1.3.3</span> An example using a frequency table</h5>
 <table class="caption-top table">
 <thead><tr class="header">
 <th>Exposure Status</th>
@@ -503,11 +509,11 @@ log(\frac{P(Y = 1)}{P(Y = 0)}) = b_0 + b_{1}x_{1} + b_{2}x_{2} + ... + b_{p}x_{p
 <li><p>The odds of disease in the exposed group are 0.43</p></li>
 <li><p>The odds of disease in the unexposed group are 0.11</p></li>
 <li><p>The odd ratio is 3.86, meaning the exposed group has 3.86 times higher odds of developing the disease compared to the unexposed group.</p></li>
-</ul></section></section><section id="multiple-logistic-regression" class="level4" data-number="4.1.1.4"><h4 data-number="4.1.1.4" class="anchored" data-anchor-id="multiple-logistic-regression">
-<span class="header-section-number">4.1.1.4</span> Multiple logistic regression</h4>
+</ul></section></section><section id="multiple-logistic-regression" class="level4" data-number="5.1.1.4"><h4 data-number="5.1.1.4" class="anchored" data-anchor-id="multiple-logistic-regression">
+<span class="header-section-number">5.1.1.4</span> Multiple logistic regression</h4>
 <p>Just like in the linear regression, we can fit more than one predictor.</p>
-<section id="model-with-one-continuous-predictor-and-one-categorical-predictor" class="level5" data-number="4.1.1.4.1"><h5 data-number="4.1.1.4.1" class="anchored" data-anchor-id="model-with-one-continuous-predictor-and-one-categorical-predictor">
-<span class="header-section-number">4.1.1.4.1</span> Model with one continuous predictor and one categorical predictor</h5>
+<section id="model-with-one-continuous-predictor-and-one-categorical-predictor" class="level5" data-number="5.1.1.4.1"><h5 data-number="5.1.1.4.1" class="anchored" data-anchor-id="model-with-one-continuous-predictor-and-one-categorical-predictor">
+<span class="header-section-number">5.1.1.4.1</span> Model with one continuous predictor and one categorical predictor</h5>
 <p>Let’s create a second predictor of disease (i.e., smoking):</p>
 <div class="cell">
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
@@ -623,8 +629,8 @@ smoking1    2.274929 20.022067</code></pre>
 4         200       1       58.19</code></pre>
 </div>
 </div>
-</section><section id="model-with-an-interaction-between-two-predictors" class="level5" data-number="4.1.1.4.2"><h5 data-number="4.1.1.4.2" class="anchored" data-anchor-id="model-with-an-interaction-between-two-predictors">
-<span class="header-section-number">4.1.1.4.2</span> Model with an interaction between two predictors</h5>
+</section><section id="model-with-an-interaction-between-two-predictors" class="level5" data-number="5.1.1.4.2"><h5 data-number="5.1.1.4.2" class="anchored" data-anchor-id="model-with-an-interaction-between-two-predictors">
+<span class="header-section-number">5.1.1.4.2</span> Model with an interaction between two predictors</h5>
 <p>In this section, we analyze a dataset containing health records of patients to predict a binary outcome: whether a patient suffers from diabetes (<code>diabetes</code>: yes = 1 / no = 0).</p>
 <p>The goal is to explore how various physiological indicators—such as body mass index, blood pressure, and glucose levels—are associated with the likelihood of <code>diabetes</code>.</p>
 <p>Load and clean the data:</p>
@@ -683,8 +689,8 @@ smoking1    2.274929 20.022067</code></pre>
 <li><p><code>glucose</code>: Every 1-unit increase in glucose increases the odds of <code>diabetes</code> by 5%. This increase is statistically significant.</p></li>
 <li><p><code>bmi</code>: Every 1-unit increase in body mass index increases the odds of <code>diabetes</code> by 14%. This increase is statistically significant.</p></li>
 <li><p><code>glucos:bmi</code>: The effect of <code>glucose</code> on the odds of <code>diabetes</code> does not increase as <code>bmi</code> increases. The interaction effect is not statistically significant.</p></li>
-</ul></section></section><section id="centering" class="level4" data-number="4.1.1.5"><h4 data-number="4.1.1.5" class="anchored" data-anchor-id="centering">
-<span class="header-section-number">4.1.1.5</span> Centering</h4>
+</ul></section></section><section id="centering" class="level4" data-number="5.1.1.5"><h4 data-number="5.1.1.5" class="anchored" data-anchor-id="centering">
+<span class="header-section-number">5.1.1.5</span> Centering</h4>
 <div class="cell">
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">glucose</span> <span class="op">+</span> <span class="va">bloodpressure</span>, data <span class="op">=</span> <span class="va">data</span>, family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span>exponentiate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -723,8 +729,8 @@ smoking1    2.274929 20.022067</code></pre>
 <li><p><code>(intercept)</code>: When <code>glucose</code> and <code>bloodpressure</code> are at their average levels, the odds of <code>diabtes</code> are 0.46.</p></li>
 <li><p><code>glucose_centered</code>: Every 1-unit increase in glucose significantly increases the odds of <code>diabetes</code> by 4%.</p></li>
 <li><p><code>bloodpressure</code>: Every 1-unit increase in blood pressure decreases the odds of <code>diabetes</code> by -0.16%. However, this is not statistically significant.</p></li>
-</ul></section><section id="model-fit" class="level4" data-number="4.1.1.6"><h4 data-number="4.1.1.6" class="anchored" data-anchor-id="model-fit">
-<span class="header-section-number">4.1.1.6</span> Model fit</h4>
+</ul></section><section id="model-fit" class="level4" data-number="5.1.1.6"><h4 data-number="5.1.1.6" class="anchored" data-anchor-id="model-fit">
+<span class="header-section-number">5.1.1.6</span> Model fit</h4>
 <p>Suppose we want to compare whether adding <code>bmi</code> to a simpler model increases the fit of the model:</p>
 <p>Simpler model</p>
 <div class="cell">
@@ -788,16 +794,16 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 </div>
 <p>How do we choose the best model?</p>
-<section id="aic" class="level5" data-number="4.1.1.6.1"><h5 data-number="4.1.1.6.1" class="anchored" data-anchor-id="aic">
-<span class="header-section-number">4.1.1.6.1</span> AIC</h5>
+<section id="aic" class="level5" data-number="5.1.1.6.1"><h5 data-number="5.1.1.6.1" class="anchored" data-anchor-id="aic">
+<span class="header-section-number">5.1.1.6.1</span> AIC</h5>
 <p>AIC (Akaike Information Criterion) is a metric used to compare and select the best model from a set of candidate models by balancing goodness-of-fit and complexity. It is calculated as follows:</p>
 <p><span class="math display">\[
 AIC = -2 * log(likelihood) + 2k
 \]</span></p>
 <p>In the AIC formula, <code>k</code> represents the number of parameters included in the model-including the intercept and all independent variables. The term <code>2k</code> serves as a penalty for model complexity. A lower AIC value indicates a model that achieves a better balance between fit and simplicity (parsimony). Therefore, among competing models, the one with the lowest AIC is generally preferred.</p>
 <p><code>model1</code> had an AIC of 815.6764735 whereas <code>model2</code>` had an AIC of 775.4809783. Since <code>model2</code> has the lower AIC, it is the preferred model, as it achieves a better trade-off between model fit and complexity.</p>
-</section><section id="pseudo-r2" class="level5" data-number="4.1.1.6.2"><h5 data-number="4.1.1.6.2" class="anchored" data-anchor-id="pseudo-r2">
-<span class="header-section-number">4.1.1.6.2</span> Pseudo <code>R2</code>
+</section><section id="pseudo-r2" class="level5" data-number="5.1.1.6.2"><h5 data-number="5.1.1.6.2" class="anchored" data-anchor-id="pseudo-r2">
+<span class="header-section-number">5.1.1.6.2</span> Pseudo <code>R2</code>
 </h5>
 <p>Note that now <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> does not provide <code>R2</code> compared with <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>. This is because we need to use another fit estimate when using <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>. Even though everyone agrees on how to calculate <code>R2</code> and associated <em>p</em>-value for linear Models, there is no consensus on how to calculate <code>R2</code> for logistic regression. There are more than 10 different ways to do it!</p>
 <p>One of the most common method is McFadden’s Pseudo <code>R2</code>. This method is very similar to the method in Linear Model. McFadden’s R squared measure is defined as:</p>
@@ -829,8 +835,8 @@ R^2_{McFadden} = \frac {1−log(Lc)} {log(Lnull)}
 </div>
 </div>
 <p>Because <code>model2</code> has a higher McFadden’s R<sup>2</sup> value, we conclude that <code>model2</code> fits the data better than <code>model1</code>.</p>
-</section><section id="summary" class="level5" data-number="4.1.1.6.3"><h5 data-number="4.1.1.6.3" class="anchored" data-anchor-id="summary">
-<span class="header-section-number">4.1.1.6.3</span> Summary</h5>
+</section><section id="summary" class="level5" data-number="5.1.1.6.3"><h5 data-number="5.1.1.6.3" class="anchored" data-anchor-id="summary">
+<span class="header-section-number">5.1.1.6.3</span> Summary</h5>
 <p>Key insights:</p>
 <ul>
 <li><p>AIC looks for the best trade-off between fit and complexity.</p></li>
@@ -882,8 +888,8 @@ R^2_{McFadden} = \frac {1−log(Lc)} {log(Lnull)}
 </tbody>
 </table>
 <p>Despite Model B having a slightly higher McFadden’s pseudo R<sup>2</sup> compared to model A, its AIC value is higher. Since AIC penalizes complexity and is more robust criterion for model selection, we prefer Model A over Model B due to its lower AIC.</p>
-</section></section><section id="model-comparison" class="level4" data-number="4.1.1.7"><h4 data-number="4.1.1.7" class="anchored" data-anchor-id="model-comparison">
-<span class="header-section-number">4.1.1.7</span> Model comparison</h4>
+</section></section><section id="model-comparison" class="level4" data-number="5.1.1.7"><h4 data-number="5.1.1.7" class="anchored" data-anchor-id="model-comparison">
+<span class="header-section-number">5.1.1.7</span> Model comparison</h4>
 <p>To statistically compare models, we can use <code>anova(test = "Chisq")</code>.</p>
 <div class="cell">
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">model1</span>, <span class="va">model2</span>, test <span class="op">=</span> <span class="st">"Chisq"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -896,8 +902,8 @@ R^2_{McFadden} = \frac {1−log(Lc)} {log(Lnull)}
 </div>
 </div>
 <p>Based on the Chi-square test from the likelihood ratio test, we conclude that <code>model2</code> fits the data significantly better than <code>model1</code> as the <em>p</em>-value is below 0.05.</p>
-</section><section id="differences-between-aic-and-anovatest-chisq" class="level4" data-number="4.1.1.8"><h4 data-number="4.1.1.8" class="anchored" data-anchor-id="differences-between-aic-and-anovatest-chisq">
-<span class="header-section-number">4.1.1.8</span> Differences between AIC and anova(test = “Chisq”)</h4>
+</section><section id="differences-between-aic-and-anovatest-chisq" class="level4" data-number="5.1.1.8"><h4 data-number="5.1.1.8" class="anchored" data-anchor-id="differences-between-aic-and-anovatest-chisq">
+<span class="header-section-number">5.1.1.8</span> Differences between AIC and anova(test = “Chisq”)</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -937,8 +943,8 @@ R^2_{McFadden} = \frac {1−log(Lc)} {log(Lnull)}
 <em>p</em>-values</td>
 </tr>
 </tbody>
-</table></section></section><section id="poisson-regression" class="level3" data-number="4.1.2"><h3 data-number="4.1.2" class="anchored" data-anchor-id="poisson-regression">
-<span class="header-section-number">4.1.2</span> Poisson regression</h3>
+</table></section></section><section id="poisson-regression" class="level3" data-number="5.1.2"><h3 data-number="5.1.2" class="anchored" data-anchor-id="poisson-regression">
+<span class="header-section-number">5.1.2</span> Poisson regression</h3>
 <p>In this section, we will briefly cover Poisson regression, a modelling technique used to analyze count data. To illustrate this, we will simulate a dataset where the outcome is the number of calls made by customers. We aim to predict <code>calls</code> using two predictors: <code>age</code> (age of customers) and <code>is_premium</code> (type of subscription: 1 = premium; 0 = regular customer).</p>
 <p>Let’s simulate the dataset.</p>
 <div class="cell">
@@ -1442,8 +1448,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./lecture_3.html" class="pagination-link" aria-label="Multiple regression 3 (Lecture 3)">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></span>
+      <a href="./mr_3.html" class="pagination-link" aria-label="Multiple regression 3 (Lecture 3)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

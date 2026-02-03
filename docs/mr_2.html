@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.42">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>2&nbsp; Multiple regression 2 (Lecture 2) – Muliple Regression</title>
+<title>3&nbsp; Multiple regression 2 (Lecture 2) – Muliple Regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,8 +60,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lecture_3.html" rel="next">
-<link href="./lecture_1.html" rel="prev">
+<link href="./mr_3.html" rel="next">
+<link href="./mr_1.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture_2.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mr_2.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -134,26 +134,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Multiple regression 1 (Lecture 1)</span></span></a>
+  <a href="./recap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">A Recap on regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_2.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span></span></a>
+  <a href="./mr_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to multiple regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></span></a>
+  <a href="./mr_2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture_4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 4 (Lecture 4)</span></span></a>
+  <a href="./mr_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mr_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-linear Regression</span></span></a>
   </div>
 </li>
     </ul>
@@ -165,17 +171,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
 <li>
-<a href="#model-comparison" id="toc-model-comparison" class="nav-link active" data-scroll-target="#model-comparison"><span class="header-section-number">2.1</span> Model comparison</a>
+<a href="#model-comparison" id="toc-model-comparison" class="nav-link active" data-scroll-target="#model-comparison"><span class="header-section-number">3.1</span> Model comparison</a>
   <ul class="collapse">
-<li><a href="#r2" id="toc-r2" class="nav-link" data-scroll-target="#r2"><span class="header-section-number">2.1.1</span> R<sup>2</sup></a></li>
-  <li><a href="#model-comparison-1" id="toc-model-comparison-1" class="nav-link" data-scroll-target="#model-comparison-1"><span class="header-section-number">2.1.2</span> Model comparison</a></li>
+<li><a href="#r2" id="toc-r2" class="nav-link" data-scroll-target="#r2"><span class="header-section-number">3.1.1</span> R<sup>2</sup></a></li>
+  <li><a href="#model-comparison-1" id="toc-model-comparison-1" class="nav-link" data-scroll-target="#model-comparison-1"><span class="header-section-number">3.1.2</span> Model comparison</a></li>
   </ul>
 </li>
   <li>
-<a href="#centering-and-standardizing-variables" id="toc-centering-and-standardizing-variables" class="nav-link" data-scroll-target="#centering-and-standardizing-variables"><span class="header-section-number">2.2</span> Centering and Standardizing variables</a>
+<a href="#centering-and-standardizing-variables" id="toc-centering-and-standardizing-variables" class="nav-link" data-scroll-target="#centering-and-standardizing-variables"><span class="header-section-number">3.2</span> Centering and Standardizing variables</a>
   <ul class="collapse">
-<li><a href="#centering" id="toc-centering" class="nav-link" data-scroll-target="#centering"><span class="header-section-number">2.2.1</span> Centering</a></li>
-  <li><a href="#standardizing-variables" id="toc-standardizing-variables" class="nav-link" data-scroll-target="#standardizing-variables"><span class="header-section-number">2.2.2</span> Standardizing variables</a></li>
+<li><a href="#centering" id="toc-centering" class="nav-link" data-scroll-target="#centering"><span class="header-section-number">3.2.1</span> Centering</a></li>
+  <li><a href="#standardizing-variables" id="toc-standardizing-variables" class="nav-link" data-scroll-target="#standardizing-variables"><span class="header-section-number">3.2.2</span> Standardizing variables</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -183,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span>
+<span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 2 (Lecture 2)</span>
 </h1>
 </div>
 
@@ -244,8 +250,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 2.313335 1.0222222       4      66  team   8.381570</code></pre>
 </div>
 </div>
-<section id="model-comparison" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="model-comparison">
-<span class="header-section-number">2.1</span> Model comparison</h2>
+<section id="model-comparison" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="model-comparison">
+<span class="header-section-number">3.1</span> Model comparison</h2>
 <p>The overall quality of a model can be assessed by examining <code>R2</code> and by comparing models using <code><a href="https://rdrr.io/r/stats/anova.html">anova()</a></code>.</p>
 <p>Let’s first fit four models:</p>
 <div class="cell">
@@ -264,8 +270,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co"># model with four predictors</span></span>
 <span><span class="va">model4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">grade</span> <span class="op">~</span> <span class="va">study_time</span> <span class="op">+</span> <span class="va">GPA</span> <span class="op">+</span> <span class="va">lecture</span> <span class="op">+</span> <span class="va">nclicks</span>, <span class="va">grades</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="r2" class="level3" data-number="2.1.1"><h3 data-number="2.1.1" class="anchored" data-anchor-id="r2">
-<span class="header-section-number">2.1.1</span> R<sup>2</sup>
+<section id="r2" class="level3" data-number="3.1.1"><h3 data-number="3.1.1" class="anchored" data-anchor-id="r2">
+<span class="header-section-number">3.1.1</span> R<sup>2</sup>
 </h3>
 <p><code>R²</code> indicates the proportion of variance in the dependent variable that is explained by the independent variable(s) in the model. An <code>R²</code> value close to 1 indicates that the model explains a large portion of the variance in the outcome variable.</p>
 <p>A problem with the <code>R²</code>, is that, it will always increase when more variables are added to the model, even if those variables are only weakly associated with the response. A solution is to adjust the <code>R²</code> by taking into account the number of predictor variables.</p>
@@ -311,8 +317,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-</section><section id="model-comparison-1" class="level3" data-number="2.1.2"><h3 data-number="2.1.2" class="anchored" data-anchor-id="model-comparison-1">
-<span class="header-section-number">2.1.2</span> Model comparison</h3>
+</section><section id="model-comparison-1" class="level3" data-number="3.1.2"><h3 data-number="3.1.2" class="anchored" data-anchor-id="model-comparison-1">
+<span class="header-section-number">3.1.2</span> Model comparison</h3>
 <p>When comparing models, we can use the <code><a href="https://rdrr.io/r/stats/anova.html">anova()</a></code> function to formally test whether adding predictors improves model fit by reducing unexplained variation. The idea is to fit a reduced model (e.g., with only predictor) and a full model (e.g., with an additional predictor), and then compare them with <code>anova(reduced, full)</code>. The output shows how much residual variance is explained by the additional predictors, along with an <em>F</em>-test and <em>p</em>-value. A significant result indicates that the new predictors account for meaningful variation in the outcome, demonstrating that the full model provides a statistically better fit than the simpler one.</p>
 <p>lm(grades ~ 1) vs lm(grade ~ study_time)</p>
 <div class="cell">
@@ -368,10 +374,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Model 1 is the best because adding more predictors did not significantly decrease the residual variance, meaning the extra predictors did not meaningfully improve the model’s fit.</p>
 <p>In linear regression, Residual Sum of Squares (RSS) is <strong>the sum of the squared differences between the actual and predicted values of the dependent variable</strong>. It measures the error remaining in a model and is a key metric for assessing model fit. The goal of ordinary least squares (OLS) linear regression is to minimize the RSS to find the best-fitting regression line that explains the data.&nbsp;A smaller RSS indicates a better-fitting model because it means the predicted values are closer to the actual data points. However, such difference might not be significantly different.</p>
-</section></section><section id="centering-and-standardizing-variables" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="centering-and-standardizing-variables">
-<span class="header-section-number">2.2</span> Centering and Standardizing variables</h2>
-<section id="centering" class="level3" data-number="2.2.1"><h3 data-number="2.2.1" class="anchored" data-anchor-id="centering">
-<span class="header-section-number">2.2.1</span> Centering</h3>
+</section></section><section id="centering-and-standardizing-variables" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="centering-and-standardizing-variables">
+<span class="header-section-number">3.2</span> Centering and Standardizing variables</h2>
+<section id="centering" class="level3" data-number="3.2.1"><h3 data-number="3.2.1" class="anchored" data-anchor-id="centering">
+<span class="header-section-number">3.2.1</span> Centering</h3>
 <p>When fitting a linear regression model:</p>
 <div class="cell">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">grade</span> <span class="op">~</span> <span class="va">GPA</span> <span class="op">+</span> <span class="va">nclicks</span>, <span class="va">grades</span><span class="op">)</span></span>
@@ -418,8 +424,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The intercept now represents the estimated value of <code>grade</code> when <code>GPA</code>is at its mean (2.5983884), not at 0. Centering does not change the statistical results of the model—such as the slopes, standard errors, or <em>p</em>-values—it only shifts the intercept to a more meaningful reference point.</p>
-</section><section id="standardizing-variables" class="level3" data-number="2.2.2"><h3 data-number="2.2.2" class="anchored" data-anchor-id="standardizing-variables">
-<span class="header-section-number">2.2.2</span> Standardizing variables</h3>
+</section><section id="standardizing-variables" class="level3" data-number="3.2.2"><h3 data-number="3.2.2" class="anchored" data-anchor-id="standardizing-variables">
+<span class="header-section-number">3.2.2</span> Standardizing variables</h3>
 <p>When fitting a model using <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>, the regression coefficients are unstandardized.</p>
 <div class="cell">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fit a model</span></span>
@@ -900,13 +906,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./lecture_1.html" class="pagination-link" aria-label="Multiple regression 1 (Lecture 1)">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Multiple regression 1 (Lecture 1)</span></span>
+      <a href="./mr_1.html" class="pagination-link" aria-label="Introduction to multiple regression">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to multiple regression</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lecture_3.html" class="pagination-link" aria-label="Multiple regression 3 (Lecture 3)">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./mr_3.html" class="pagination-link" aria-label="Multiple regression 3 (Lecture 3)">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple regression 3 (Lecture 3)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

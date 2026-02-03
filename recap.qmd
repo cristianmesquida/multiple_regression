@@ -1,5 +1,5 @@
 ---
-title: "Multiple regression 1 (Lecture 1)"
+title: "A Recap on regression"
 ---
 
 **Required packages**
