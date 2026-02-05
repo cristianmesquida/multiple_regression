@@ -7,7 +7,8 @@ This repository contains materials used for Multiple Regression in Behavioral Re
 ``` markdown
 multiple_regression/
 ├─ lectures/
-|   ├─ mr_1.qmd: Quarto document containing content, code and data to generate chapter 1 "Introduction to multiple regression"
+|   ├─ recap.qmd: Quarto document containing content, code and data to generate chapter 1 "A recap on regression".
+|   ├─ mr_1.qmd: Quarto document containing content, code and data to generate chapter 2 "Introduction to multiple regression".
 |   ├─ mr_2.qmd: Quarto document containing content, code and data to generate chapter 2 "Multiple regression 2".
 |   ├─ mr_3.qmd: Quarto document containing content, code and data to generate chapter 3 "Multiple regression 3".
 |   └─ mr_4.qmd: Quarto document containing content, code and data to generate chapter 4 "Non-linear regression 4".
