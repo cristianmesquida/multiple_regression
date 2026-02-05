@@ -511,7 +511,7 @@ Based on the Chi-square test from the likelihood ratio test, we conclude that `m
 #### Differences between AIC and anova(test = "Chisq")
 
 | Feature | AIC | ANOVA (`test = "Chisq"`) |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | **Purpose** | Model selection (fit vs. complexity) | Hypothesis testing (is extra predictor significant?) |
 | **Compares** | Any models (nested or not) | Only nested models (i.e., one is a subset of the other) |
 | **Penalty for complexity** | Yes (via AIC formula) | No — tests if added complexity improves fit significantly |

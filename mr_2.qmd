@@ -1,5 +1,5 @@
 ---
-title: "Multiple regression 2 (Lecture 2)"
+title: "Multiple regression 2"
 ---
 
 **Load packages**
