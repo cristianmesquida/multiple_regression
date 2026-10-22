@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 book:
-  title: "Muliple Regression"
+  title: "Multiple Regression"
   author: "Cristian Mesquida"
   date: "11/16/2025"
   chapters:
@@ -13,6 +13,7 @@ book:
     - mr_2.qmd
     - mr_3.qmd
     - mr_4.qmd
+    - mr_5.qmd
 
 format:
   html:
@@ -23,6 +24,5 @@ format:
    theme:
       - cosmo
       - brand
-   single-file: true
 editor: visual
 

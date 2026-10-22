@@ -10,9 +10,7 @@ title: "Introduction to multiple regression"
 
 library(tidyverse)  # tidy and wrangle data
 library(broom)      # create tidy tables for statistical objects
-library(effectsize) # calculate effect size
 library(kableExtra) # create tidy tables
-library(pscl)
 library(faux)       # simulate data
 ```
 
@@ -28,17 +26,17 @@ head(grades, 5)
 
 In **simple linear regression**, we model the relationship between one predictor and one outcome, such as predicting exam score from hours studied, while in **multiple linear regression**, we use two or more predictors (which can be continuous or categorical) to explain variation in the outcome. This allows us to estimate the unique effect of each predictor while controlling for others, and it also makes it possible to include **interaction terms**, where the effect of one predictor (e.g., a continuous variable like hours studied) depends on the level of another predictor (e.g., a categorical variable like teaching method).
 
-With two predictor variables ($x_1$) and ($x_2$) the prediction of $y$ is expressed by the following equation:
+With two predictor variables ($x_1$ and $x_2$), the prediction of $y$ is expressed by the following equation:
 
 $$
-y = \beta_0 + \beta_{1}X_{1} + \beta_{2}X_{2} + e
+y = \beta_0 + \beta_{1}x_{1} + \beta_{2}x_{2} + \epsilon
 $$
 
-where the $\beta_1$ and $\beta_2$ measure the association between $x_1$ and $x_2$ and $y$. Specifically, $\beta_1$ is interpreted as the average effect of a one unit increase in $x_1$ on $y$, holding the other predictors constant, and $\beta_2$ is interpreted similarly for $x_2$.
+where $\beta_1$ and $\beta_2$ measure the association between $y$ and $x_1$ and $x_2$, respectively. Specifically, $\beta_1$ is interpreted as the average effect of a one unit increase in $x_1$ on $y$, holding the other predictors constant, and $\beta_2$ is interpreted similarly for $x_2$.
 
 When adding a second predictor ($x_2$):
 
-If $x_2$ is a **continuous predictor** (e.g., `nclicks`), the corresponding regression coefficient (`b1`) is a slope, interpreted as the difference in the mean of `y` associated with a one-unit difference in `x` when holding all other predictors fixed (or “controlling for” or “adjusted for” the other predictors).
+If $x_2$ is a **continuous predictor** (e.g., `nclicks`), the corresponding regression coefficient ($\beta_2$) is a slope, interpreted as the difference in the mean of $y$ associated with a one-unit difference in $x_2$ when holding all other predictors fixed (or “controlling for” or “adjusted for” the other predictors).
 
 If $x_2$ is a **categorical predictor** (e.g., sex) with *L* levels, then instead of just one corresponding $x$ term in the model, there are *L*-1 indicator variables. Each of the *L*-1 corresponding regression coefficients is interpreted as the difference between the mean of $y$ at that level of $x$ and the mean of $y$ at the reference level, when holding all other predictors fixed (or “controlling for” or “adjusted for” the other predictors).
 
@@ -50,7 +48,7 @@ When we talk about "controlling for" or "adjusted for" what we are saying is tha
 
 ### Model with two continuous predictors
 
-Suppose we want to examine how GPA and access to Canvas affect grades, we can fit a multiple regression model using the data set:
+Suppose we want to examine how GPA and access to Canvas affect grades. We can fit a multiple regression model using the data set:
 
 ```{r}
 head(grades, n = 5)
@@ -65,28 +63,26 @@ model2 <- lm(grade ~ GPA + nclicks, grades) |>
 model2
 ```
 
-Given the output, our regression model equation with two predictors can be written as follow:
+Given the output, our regression model equation with two predictors can be written as follows:
 
-> grade = `r round(model2[1,2],2)` + `r round(model2[2,2],2)`\*GPA + `r round(model2[3,2], 2)`\*nclicks
+> grade = `r round(model2$estimate[1], 2)` + `r round(model2$estimate[2], 2)`\*GPA + `r round(model2$estimate[3], 2)`\*nclicks
 
-`grade` increases by `r round(model2[[2, 2]], 2)` as `GPA` increases by one point while holiding `nclicks` constant. The regression coefficient of `GPA` is statistically significant (*p* = `r model2[2,5]`) indicating that is statistically different from 0. The regression coefficient of `nclicks` term has a value of `r round(model2[[3,2]], 2)`. `grade` increases by `r round(model2[3,2], 4)` as `nclicks`\` increases by 1 while holding `GPA` constant. Unlike `GPA`, the regression coefficient of `nclicks` is not statistically significant (*p* = `r model2[3,5]`) indicating that is not statistically different from 0.
+`grade` increases by `r round(model2$estimate[2], 2)` as `GPA` increases by one point while holding `nclicks` constant. The regression coefficient of `GPA` is statistically significant (*p* = `r format.pval(model2$p.value[2], digits = 3)`), indicating that it is statistically different from 0. `grade` increases by `r round(model2$estimate[3], 4)` as `nclicks` increases by 1 while holding `GPA` constant. Unlike `GPA`, the regression coefficient of `nclicks` is not statistically significant (*p* = `r format.pval(model2$p.value[3], digits = 3)`), indicating that it is not statistically different from 0.
 
-When we say "holding `nclicks` constant", we mean that the effect of `GPA` is estimated while comparing student with the same number of clicks. For instance, suppose we want to compare two students with the same number of clicks (i.e., holding `nclicks` constant):
+When we say "holding `nclicks` constant", we mean that the effect of `GPA` is estimated while comparing students with the same number of clicks. For instance, suppose we want to compare two students with the same number of clicks (i.e., holding `nclicks` constant):
 
 Both students have 50 clicks, but different GPAs:
 
 -   Student A: GPA = 3
 
     ```{r}
-    round(model2[1,2] + model2[2,2]*3 + model2[3,2]*50, 2) |> 
-      pull()
+    round(sum(model2$estimate * c(1, 3, 50)), 2)
     ```
 
 -   Student B: GPA = 4
 
     ```{r}
-    round(model2[1,2] + model2[2,2]*4 + model2[3,2]*50, 2) |> 
-      pull()
+    round(sum(model2$estimate * c(1, 4, 50)), 2)
     ```
 
 The difference in `grade` between both students is the effect of a 1-point `GPA` increase **at the same number of clicks**. That’s all “holding constant” means: compare outcomes **at the same value** of the other variable.
@@ -94,7 +90,7 @@ The difference in `grade` between both students is the effect of a 1-point `GPA`
 ### Model with one continuous and one categorical predictor
 
 ```{r}
-# create a categotical variable
+# create a categorical variable
 grades$sport <- as.factor(rep(c("team", 
                                 "individual"), 
                                 each = 50))
@@ -110,13 +106,13 @@ lm(grade ~ lecture + sport, grades) |>
   kable(digits = 3)
 ```
 
-In the fitted model, `team`is used as the reference category. As a result, the model includes one coefficient representing the difference in the outcome variable between `team` and `individual`. The intercept corresponds to the expected value of `grade` when *x* is the student plays an individual sport.
+In the fitted model, `individual` is used as the reference category. As a result, the model includes one coefficient (`sportteam`) representing the difference in `grade` between `team` and `individual`. The intercept corresponds to the expected value of `grade` for a student who plays an individual sport and has `lecture` = 0.
 
-When using regression models, by default R treats the first level of a categorical factor (alphabetically or numerically) as the reference level in regression models . This is why `indiviudal` is treated as the reference level. This default behavior can be changed using three methods.
+By default, R treats the first level of a categorical factor (alphabetically or numerically) as the reference level in regression models. This is why `individual` is treated as the reference level. This default behavior can be changed using three methods.
 
 1.  **Dummy coding**
 
-Dummy coding is the process of converting categorical variables into numeric variables (e.g., 0, 1, 2) so they can be included in regression models. This allows the model to estimate differences between categories.
+Dummy coding is the process of converting categorical variables into numeric variables (e.g., 0 and 1) so they can be included in regression models. This allows the model to estimate differences between categories.
 
 For example, suppose we want to include the variable `sport` (team vs. individual) in a regression. We can create a dummy variable as follows:
 
@@ -127,10 +123,10 @@ grades_dummy <- grades |>
 head(grades_dummy, 5)
 ```
 
-Here `team` is coded as 0 and will be the reference category (intercept ) whereas `individual` is coded as 1 and its coefficient in the regression will represent the difference from the reference category. Let's fit the model:
+Here `team` is coded as 0 and will be the reference category (intercept) whereas `individual` is coded as 1 and its coefficient in the regression will represent the difference from the reference category. Let's fit the model:
 
 ```{r}
-lm(grade ~ GPA + sport, grades_dummy) |> 
+lm(grade ~ GPA + sport_dummy, grades_dummy) |> 
   tidy()
 ```
 
@@ -138,7 +134,7 @@ Now the reference level is `team` because it corresponds to the first level of t
 
 2.  Using `factor()`
 
-We can reorder the levels of the factor to specify which level we want to the the reference level.
+We can reorder the levels of the factor to specify which level we want to be the reference level.
 
 ```{r}
 grades$sport <- factor(
@@ -171,23 +167,23 @@ lm(grade ~ GPA + sport, grades) |>
 
 ### Model with an interaction effect between two predictors
 
-An interaction effect occurs when the effect of one predictor variable on the outcome depends on the level or value of another predictor. In other words, the relationship between $y$ and $x_1$ changes depending on $x_2$
+An interaction effect occurs when the effect of one predictor variable on the outcome depends on the level or value of another predictor. In other words, the relationship between $y$ and $x_1$ changes depending on $x_2$.
 
 The model with interaction effects between two predictors can be written as follows:
 
 $$
-y = b_0 + b_{1}X_{1} + b_{2}X_{2} + b_{3}X_{1}X_{2} + e
+y = \beta_0 + \beta_{1}x_{1} + \beta_{2}x_{2} + \beta_{3}x_{1}x_{2} + \epsilon
 $$
 
-In the interaction model, if b~3~ is zero, the equation reduces to the equation for the main-effects model, namely:
+In the interaction model, if $\beta_3$ is zero, the equation reduces to the equation for the main-effects model, namely:
 
 $$
-y = b_0 + b_{1}X_{1} + b_{2}X_{2} + e
+y = \beta_0 + \beta_{1}x_{1} + \beta_{2}x_{2} + \epsilon
 $$
 
-### Interaction between a two categorical predictors
+### Interaction between two categorical predictors
 
-Suppose we want to determine whether the efficacy of a new drug to reduce blood pressure (`BP`) is improved by the presence of a second moderator or predictor. Specifically, we are interested in whether the efficacy of the drug to reduce blood pressure is higher in patients that do exercise in comparison to those who are sedentary. This would be an example of a study where the effect of interest is an interaction effect.
+Suppose we want to determine whether the efficacy of a new drug to reduce blood pressure (`BP`) is improved by the presence of a second moderator or predictor. Specifically, we are interested in whether the efficacy of the drug to reduce blood pressure is higher in patients that exercise in comparison to those who are sedentary. This would be an example of a study where the effect of interest is an interaction effect.
 
 Example 1
 
@@ -225,7 +221,7 @@ Plot the simulated data:
 #| fig-cap: "No interaction effect"
 
 ggplot(sim_data, aes(x = treatment, y = BP, group = sport, color = sport)) +
-  stat_summary(fun = mean, geom = "line", size = 1.2) +
+  stat_summary(fun = mean, geom = "line", linewidth = 1.2) +
   stat_summary(fun = mean, geom = "point", size = 3) +  
   coord_cartesian(ylim = c(30, 80)) +
   labs(y = "Blood pressure", x = "Treatment")
@@ -244,9 +240,11 @@ res1 <- lm(BP ~ treatment * sport, data = sim_data) |>
 res1
 ```
 
-The regression model shows that `BP` for the reference group (placebo and sport = yes) is `r round(res1[1,2], 2)`. When `sport` = yes, taking the drug reduces `BP` by approximately `r round(res1[2,2], 2)`units, a highly significant effect. Being in `sport` = no significantly increases `BP` (`r round(res1[3,2], 2)`) in the placebo group. The interaction between `treatment` and `sport` (`r round(res1[4,2], 2)`) indicates that the drug’s effect is slightly smaller for sport = no, but this difference is not statistically significant. Overall, the drug substantially reduces `BP` regardless of sport participation, and there is no meaningful interaction, so the effect of the drug is similar across both sport groups.
+The regression model shows that `BP` for the reference group (placebo and sport = yes) is `r round(res1$estimate[1], 2)`. When `sport` = yes, taking the drug reduces `BP` by approximately `r abs(round(res1$estimate[2], 2))` units, a highly significant effect. Being in `sport` = no significantly increases `BP` (`r round(res1$estimate[3], 2)`) in the placebo group. The interaction between `treatment` and `sport` (`r round(res1$estimate[4], 2)`) indicates that the drug’s effect is slightly smaller for sport = no, but this difference is not statistically significant. Overall, the drug substantially reduces `BP` regardless of sport participation, and there is no meaningful interaction, so the effect of the drug is similar across both sport groups.
 
 Example 2
+
+In this example, the means are chosen so that there is no treatment effect and no interaction.
 
 ```{r}
 # For reproducibility
@@ -279,14 +277,14 @@ sim_data2 <- sim_design(
 #| fig-cap: "No interaction effect"
 
 ggplot(sim_data2, aes(x = treatment, y = BP, group = sport, color = sport)) +
-  stat_summary(fun = mean, geom = "line", size = 1.2) +
+  stat_summary(fun = mean, geom = "line", linewidth = 1.2) +
   stat_summary(fun = mean, geom = "point", size = 3) + 
   coord_cartesian(ylim = c(30, 50)) +
-  labs(y = "Mood", x = "Treatment")
+  labs(y = "Blood pressure", x = "Treatment")
 ```
 
 ```{r}
-res2 <- lm(BP ~ treatment * sport, data = sim_data) |> 
+res2 <- lm(BP ~ treatment * sport, data = sim_data2) |> 
   tidy() |> 
   mutate(
     p_value = as.numeric(formatC(p.value, format = "f", digits = 4)
@@ -330,7 +328,7 @@ Let's plot the data
 #| fig-cap: "Interaction effect"
 
 ggplot(sim_data3, aes(x = treatment, y = BP, group = sport, color = sport)) +
-  stat_summary(fun = mean, geom = "line", size = 1.2) +
+  stat_summary(fun = mean, geom = "line", linewidth = 1.2) +
   stat_summary(fun = mean, geom = "point", size = 3) + 
   coord_cartesian(ylim = c(30, 80)) +
   labs(y = "Blood pressure", x = "Treatment")
@@ -341,7 +339,7 @@ Let's fit the model
 ```{r}
 model <- lm(BP ~ treatment * sport, data = sim_data3) 
 
-model|> tidy()
+model |> tidy()
 ```
 
 How to interpret this output:
@@ -354,7 +352,7 @@ How to interpret this output:
 
     `r round(model$coefficients[1] + model$coefficients[2], 1)`
 
--   `sportno` = `r round(model$coefficients[3], 1)`: This represents the change in blood pressure for subjects in placebo group and are sedentary. Their blood pressure is:
+-   `sportno` = `r round(model$coefficients[3], 1)`: This represents the change in blood pressure for subjects in the placebo group who are sedentary. Their blood pressure is:
 
     `r round(model$coefficients[1], 1)` + `r round(model$coefficients[3], 1)` =
 
@@ -368,20 +366,21 @@ How to interpret this output:
 
 An **interaction effect** occurs when the effect of one predictor varies depending on the level of another predictor. Graphically, this is shown when the lines representing different groups are **not *parallel***. Conversely, ***parallel*** lines typically indicate the absence of an interaction, meaning the effect of one predictor is consistent across the levels of the other.
 
-### Interaction between a continuous and categorical predictors
+### Interaction between a continuous and a categorical predictor
 
 Suppose we want to determine whether the effect of `GPA` on `grade` differs between students who play "team sports" and those who play "individual sports". Specifically, we aim to compare whether the effect of `GPA` on `grade` varies as a function of `sport`.
 
 ```{r}
+#| message: false
 ggplot(grades, aes(y = grade, x = GPA, colour = sport)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
-Here we see very clearly the difference in slope that we built into our data. How do we test whether the two slopes are significantly different? To do this, we can't have two separate regressions. We need to bring the two regression lines into the same model. How do we do this?
+The plot shows the regression line of `grade` on `GPA` for each group. How do we test whether the two slopes are significantly different? To do this, we can't use two separate regressions. We need to bring the two regression lines into the same model by including the interaction term `GPA:sport`. In R, `GPA * sport` is shorthand for `GPA + sport + GPA:sport`:
 
 ```{r}
-lm(grade ~ GPA + sport + GPA*sport, grades) |> 
+lm(grade ~ GPA * sport, grades) |> 
   tidy() |> 
   mutate(p.value = format.pval(p.value, digits = 3, scientific = FALSE)) |> 
   kable() |> 

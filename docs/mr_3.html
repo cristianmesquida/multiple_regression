@@ -2,10 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.9.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>4&nbsp; Multiple regression 3 – Muliple Regression</title>
+<title>4&nbsp; Multiple regression 3 – Multiple Regression</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -18,8 +21,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -30,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -62,15 +66,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <link href="./mr_4.html" rel="next">
 <link href="./mr_2.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-626149efe8f5d16e1d391ba177679bf0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -97,7 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script><script src="site_libs/kePrint-0.0.1/kePrint.js"></script><link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -108,7 +113,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -124,7 +129,7 @@ window.Quarto = {
 };
 </script>
 </head>
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
@@ -142,7 +147,7 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Muliple Regression</a> 
+      <a href="./">Multiple Regression</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -197,17 +202,13 @@ window.Quarto = {
    
   <ul>
 <li><a href="#marginal-means-and-pairwise-comparisons" id="toc-marginal-means-and-pairwise-comparisons" class="nav-link active" data-scroll-target="#marginal-means-and-pairwise-comparisons"><span class="header-section-number">4.1</span> Marginal means and pairwise comparisons</a></li>
+  <li><a href="#testing-non-zero-effects" id="toc-testing-non-zero-effects" class="nav-link" data-scroll-target="#testing-non-zero-effects"><span class="header-section-number">4.2</span> Testing non-zero effects</a></li>
+  <li><a href="#predictions" id="toc-predictions" class="nav-link" data-scroll-target="#predictions"><span class="header-section-number">4.3</span> Predictions</a></li>
   <li>
-<a href="#testing-non-zero-effects" id="toc-testing-non-zero-effects" class="nav-link" data-scroll-target="#testing-non-zero-effects"><span class="header-section-number">4.2</span> Testing non-zero effects</a>
+<a href="#transformations" id="toc-transformations" class="nav-link" data-scroll-target="#transformations"><span class="header-section-number">4.4</span> Transformations</a>
   <ul class="collapse">
-<li><a href="#predictions" id="toc-predictions" class="nav-link" data-scroll-target="#predictions"><span class="header-section-number">4.2.1</span> Predictions</a></li>
-  </ul>
-</li>
-  <li>
-<a href="#transformations" id="toc-transformations" class="nav-link" data-scroll-target="#transformations"><span class="header-section-number">4.3</span> Transformations</a>
-  <ul class="collapse">
-<li><a href="#log-transformation" id="toc-log-transformation" class="nav-link" data-scroll-target="#log-transformation"><span class="header-section-number">4.3.1</span> Log transformation</a></li>
-  <li><a href="#tukkeys-ladder-of-powers" id="toc-tukkeys-ladder-of-powers" class="nav-link" data-scroll-target="#tukkeys-ladder-of-powers"><span class="header-section-number">4.3.2</span> Tukkey’s ladder of powers</a></li>
+<li><a href="#log-transformation" id="toc-log-transformation" class="nav-link" data-scroll-target="#log-transformation"><span class="header-section-number">4.4.1</span> Log transformation</a></li>
+  <li><a href="#tukeys-ladder-of-powers" id="toc-tukeys-ladder-of-powers" class="nav-link" data-scroll-target="#tukeys-ladder-of-powers"><span class="header-section-number">4.4.2</span> Tukey’s ladder of powers</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -232,21 +233,18 @@ window.Quarto = {
 
 </header><p><strong>Load packages</strong></p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load packages</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>  <span class="co"># tidy and wrangle data</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/">broom</a></span><span class="op">)</span>      <span class="co"># create tidy tables for statistical objects</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/effectsize/">effectsize</a></span><span class="op">)</span> <span class="co"># calculate effect size</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/">kableExtra</a></span><span class="op">)</span> <span class="co"># create tidy tables</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>     <span class="co"># create tables</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://CRAN.R-project.org/package=rcompanion">rcompanion</a></span><span class="op">)</span> <span class="co"># perform Tukey's ladder of power</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/atahk/pscl">pscl</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvlenth.github.io/emmeans/">emmeans</a></span><span class="op">)</span>    <span class="co"># multiple comparisons</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvlenth.github.io/emmeans/">emmeans</a></span><span class="op">)</span>    <span class="co"># multiple comparisons</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Load data</strong></p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">grades</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"data/grades.csv"</span><span class="op">)</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">grades</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"data/grades.csv"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">grades</span>, <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">grades</span>, <span class="fl">5</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     grade       GPA lecture nclicks
 1 2.395139 1.1341088       6      88
@@ -258,7 +256,7 @@ window.Quarto = {
 </div>
 <p>For learning purposes, we will add two new variables: <code>sport</code>, which is categorical, and <code>study_time</code> which is numerical.</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create a categotical variable</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create a categorical variable</span></span>
 <span><span class="va">grades</span><span class="op">$</span><span class="va">sport</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"team"</span>, </span>
 <span>                                <span class="st">"individual"</span><span class="op">)</span>, </span>
 <span>                                each <span class="op">=</span> <span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
@@ -269,7 +267,7 @@ window.Quarto = {
 <span><span class="co"># create a variable "study_time" that is highly correlated with "grade"</span></span>
 <span><span class="va">grades</span><span class="op">$</span><span class="va">study_time</span> <span class="op">&lt;-</span> <span class="fl">0.9</span> <span class="op">*</span> <span class="va">grades</span><span class="op">$</span><span class="va">grade</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">grades</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">6</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">grades</span>, <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">grades</span>, <span class="fl">5</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     grade       GPA lecture nclicks sport study_time
 1 2.395139 1.1341088       6      88  team   7.953380
@@ -283,18 +281,20 @@ window.Quarto = {
 <span class="header-section-number">4.1</span> Marginal means and pairwise comparisons</h2>
 <p>When we fit a model in R with a categorical predictor, by default, R uses dummy (treatment) coding, where the reference level is compared to all the other levels of the factor. Each coefficient in the model output represents the difference in the outcome variable between the reference level and one of the other levels.</p>
 <p>However, we often want to go beyond these default comparisons. For example, we might want to:</p>
-<p>- Compare specific pairs of levels (not just against the reference);</p>
-<p>- Test whether two levels differ across levels of another factor;</p>
 <ul>
-<li>Perform custom contrasts.</li>
+<li><p>Compare specific pairs of levels (not just against the reference);</p></li>
+<li><p>Test whether two levels differ across levels of another factor;</p></li>
+<li><p>Perform custom contrasts.</p></li>
 </ul>
 <p>These comparisons are not done automatically. To perform them, we can use the <code>emmeans</code> package, which offers functions to:</p>
-<p>- Estimate marginal means;</p>
-<p>- Conduct pairwise comparisons across all levels of a factor;</p>
-<p>- Specify custom comparisons between levels or combinations of levels.</p>
-<p>In a 3 x 3 factorial design, there are six cell means, six marginal means, one grand mean and 15 possible pairwise comparisons.</p>
+<ul>
+<li><p>Estimate marginal means;</p></li>
+<li><p>Conduct pairwise comparisons across all levels of a factor;</p></li>
+<li><p>Specify custom comparisons between levels or combinations of levels.</p></li>
+</ul>
+<p>In a 3 x 3 factorial design, there are nine cell means, six marginal means, one grand mean and 36 possible pairwise comparisons between cell means.</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
 <span>  Percentage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"10"</span>, <span class="st">"20"</span>, <span class="st">"30"</span>, <span class="st">""</span><span class="op">)</span>,</span>
 <span>  Soya <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cell mean"</span>, <span class="st">"cell mean"</span>, <span class="st">"cell mean"</span>, <span class="st">"Marginal_means"</span><span class="op">)</span>,</span>
 <span>  Milk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cell mean"</span>, <span class="st">"cell mean"</span>, <span class="st">"cell mean"</span>, <span class="st">"Marginal_means"</span><span class="op">)</span>,</span>
@@ -307,9 +307,9 @@ window.Quarto = {
 <span>        escape <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/row_spec.html">row_spec</a></span><span class="op">(</span><span class="fl">0</span>, extra_css <span class="op">=</span> <span class="st">"text-align: center;"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/column_spec.html">column_spec</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, extra_css <span class="op">=</span> <span class="st">"text-align: center;"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/column_spec.html">column_spec</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, extra_css <span class="op">=</span> <span class="st">"text-align: center;"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<table class="table caption-top table-sm table-striped small">
 <caption>3 x 3 Factorial design</caption>
 <thead><tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Percentage</th>
@@ -353,15 +353,15 @@ window.Quarto = {
 </div>
 <p>For k means, the number of pairwise comparisons is:</p>
 <p><span class="math display">\[
-{k \choose 2} \frac{k(k - 1)}{2}                         
+{k \choose 2} = \frac{k(k - 1)}{2}
 \]</span></p>
 <p>So with 9 cell means, the number of pairwise comparisons is:</p>
 <p><span class="math display">\[
-{9 \choose 2} \frac{9(9 - 1)}{2} = 36
+{9 \choose 2} = \frac{9(9 - 1)}{2} = 36
 \]</span></p>
-<p>Let’s simulate data for one dependent variable <code>muscle_mass</code> and two three-level categorical predictors <code>drink</code> and <code>percentage</code>- the latter referring to the percentage of protein in each type of drink.</p>
+<p>Let’s simulate data for one dependent variable <code>muscle_mass</code> and two three-level categorical predictors, <code>drink</code> and <code>percentage</code>, the latter referring to the percentage of protein in each type of drink.</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Define levels</span></span>
@@ -373,7 +373,7 @@ window.Quarto = {
 <span>                    percentage <span class="op">=</span> <span class="va">percentage</span>,</span>
 <span>                    rep <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Generate heart rate (hr) with different means per group</span></span>
+<span><span class="co"># Generate muscle mass with different means per group</span></span>
 <span><span class="va">data</span><span class="op">$</span><span class="va">muscle_mass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span></span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>,</span>
@@ -385,7 +385,7 @@ window.Quarto = {
 <span>        <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   drink percentage rep muscle_mass
 1   soya         10   1   -1.120951
@@ -398,8 +398,8 @@ window.Quarto = {
 </div>
 <p>Let’s fit the model:</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">muscle_mass</span> <span class="op">~</span> <span class="va">drink</span> <span class="op">+</span> <span class="va">percentage</span>, <span class="va">data</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">muscle_mass</span> <span class="op">~</span> <span class="va">drink</span> <span class="op">+</span> <span class="va">percentage</span>, <span class="va">data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 5
   term         estimate std.error statistic  p.value
@@ -413,7 +413,7 @@ window.Quarto = {
 </div>
 <p>Let’s compute the marginal means for the <code>drink</code> variable:</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, specs <span class="op">=</span> <span class="st">"drink"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, specs <span class="op">=</span> <span class="st">"drink"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> drink  emmean    SE  df lower.CL upper.CL
  soya     1.69 0.268 130     1.16     2.22
@@ -426,7 +426,7 @@ Confidence level used: 0.95 </code></pre>
 </div>
 <p>We can do the same for <code>percentage</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, specs <span class="op">=</span> <span class="st">"percentage"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, specs <span class="op">=</span> <span class="st">"percentage"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> percentage emmean    SE  df lower.CL upper.CL
  10           1.10 0.268 130    0.575     1.63
@@ -437,9 +437,9 @@ Results are averaged over the levels of: drink
 Confidence level used: 0.95 </code></pre>
 </div>
 </div>
-<p>We can also do:</p>
+<p>We can also compute the marginal means of <code>drink</code> separately for each level of <code>percentage</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, specs <span class="op">=</span> <span class="st">"drink"</span>, by <span class="op">=</span> <span class="st">"percentage"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, specs <span class="op">=</span> <span class="st">"drink"</span>, by <span class="op">=</span> <span class="st">"percentage"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>percentage = 10:
  drink  emmean    SE  df lower.CL upper.CL
@@ -462,25 +462,25 @@ percentage = 30:
 Confidence level used: 0.95 </code></pre>
 </div>
 </div>
-<p>The second part of the output, called <code>contrasts</code>, contains the comparisons of interest. It is this section that we are generally most interested in when answering a question about differences among groups. You can see which comparison is which via the <code>contrast</code>column.</p>
-<p>By default, <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans()</a></code> calculates all pairwise comparisons.</p>
+<p>To compare the marginal means, we use <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code>. By default, it calculates all pairwise comparisons.</p>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">em</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, specs <span class="op">=</span> <span class="st">"drink"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">em</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">em</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, specs <span class="op">=</span> <span class="st">"drink"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">em</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast      estimate    SE  df t.ratio p.value
- soya - milk     -2.557 0.378 130  -6.756  &lt;.0001
+ soya - milk     -2.557 0.378 130  -6.756 &lt;0.0001
  soya - almond   -0.385 0.378 130  -1.018  0.5668
- milk - almond    2.171 0.378 130   5.738  &lt;.0001
+ milk - almond    2.171 0.378 130   5.738 &lt;0.0001
 
 Results are averaged over the levels of: percentage 
 P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
 </div>
 </div>
-<p>The <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans()</a></code> package automatically adjusts for multiple comparisons. Since we did all pairwise comparisons the package used a Tukey adjustment. The <code>adjust</code> argument can be used to change the type of multiple comparisons adjustment. All available options are listed and described in the documentation for <code>summary.emmGrid</code> under the section <em>P-value adjustments</em>. For instance, one option is to skip multiple comparisons adjustments all together, using&nbsp;<code>adjust = "none"</code> The comparisons are accompanied by statistical tests of the null hypothesis of “no difference”, but lack confidence interval (CI) by default. You can add the 95% CI using <code><a href="https://rdrr.io/r/stats/confint.html">confint()</a></code>:</p>
+<p>The output contains the comparisons of interest. This is generally the section we care about most when answering a question about differences among groups. You can see which comparison is which in the <code>contrast</code> column.</p>
+<p>The <code>emmeans</code> package automatically adjusts for multiple comparisons. Since we did all pairwise comparisons, the package used a Tukey adjustment. The <code>adjust</code> argument can be used to change the type of multiple comparisons adjustment. All available options are listed and described in the documentation for <code>summary.emmGrid</code> under the section <em>P-value adjustments</em>. For instance, one option is to skip multiple comparisons adjustments altogether, using&nbsp;<code>adjust = "none"</code>. The comparisons are accompanied by statistical tests of the null hypothesis of “no difference”, but lack confidence intervals (CIs) by default. You can add the 95% CI using <code><a href="https://rdrr.io/r/stats/confint.html">confint()</a></code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">em</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/confint.html">confint</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">em</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/confint.html">confint</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast      estimate    SE  df lower.CL upper.CL
  soya - milk     -2.557 0.378 130    -3.45   -1.659
@@ -494,112 +494,108 @@ Conf-level adjustment: tukey method for comparing a family of 3 estimates </code
 </div>
 <p>We can also compare each level of <code>drink</code> for each level of <code>percentage</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">em</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, specs <span class="op">=</span> <span class="st">"drink"</span>, by <span class="op">=</span> <span class="st">"percentage"</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">em</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, specs <span class="op">=</span> <span class="st">"drink"</span>, by <span class="op">=</span> <span class="st">"percentage"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># or, alternatively:</span></span>
-<span><span class="co"># emmeans(model, specs = "drink", by = "percentage")</span></span>
+<span><span class="co"># em &lt;- emmeans(model, ~ drink | percentage)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">em</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">em</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>percentage = 10:
  contrast      estimate    SE  df t.ratio p.value
- soya - milk     -2.557 0.378 130  -6.756  &lt;.0001
+ soya - milk     -2.557 0.378 130  -6.756 &lt;0.0001
  soya - almond   -0.385 0.378 130  -1.018  0.5668
- milk - almond    2.171 0.378 130   5.738  &lt;.0001
+ milk - almond    2.171 0.378 130   5.738 &lt;0.0001
 
 percentage = 20:
  contrast      estimate    SE  df t.ratio p.value
- soya - milk     -2.557 0.378 130  -6.756  &lt;.0001
+ soya - milk     -2.557 0.378 130  -6.756 &lt;0.0001
  soya - almond   -0.385 0.378 130  -1.018  0.5668
- milk - almond    2.171 0.378 130   5.738  &lt;.0001
+ milk - almond    2.171 0.378 130   5.738 &lt;0.0001
 
 percentage = 30:
  contrast      estimate    SE  df t.ratio p.value
- soya - milk     -2.557 0.378 130  -6.756  &lt;.0001
+ soya - milk     -2.557 0.378 130  -6.756 &lt;0.0001
  soya - almond   -0.385 0.378 130  -1.018  0.5668
- milk - almond    2.171 0.378 130   5.738  &lt;.0001
+ milk - almond    2.171 0.378 130   5.738 &lt;0.0001
 
 P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
 </div>
 </div>
 <p>We can also compute all pairwise comparisons allowed by the study design:</p>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">emm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, <span class="op">~</span> <span class="va">drink</span> <span class="op">*</span> <span class="va">percentage</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">emm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, <span class="op">~</span> <span class="va">drink</span> <span class="op">*</span> <span class="va">percentage</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">emm</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">emm</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast                                  estimate    SE  df t.ratio p.value
- soya percentage10 - milk percentage10      -2.5567 0.378 130  -6.756  &lt;.0001
+ soya percentage10 - milk percentage10      -2.5567 0.378 130  -6.756 &lt;0.0001
  soya percentage10 - almond percentage10    -0.3853 0.378 130  -1.018  0.9835
  soya percentage10 - soya percentage20      -1.3040 0.378 130  -3.446  0.0212
- soya percentage10 - milk percentage20      -3.8607 0.535 130  -7.213  &lt;.0001
+ soya percentage10 - milk percentage20      -3.8607 0.535 130  -7.213 &lt;0.0001
  soya percentage10 - almond percentage20    -1.6893 0.535 130  -3.156  0.0498
- soya percentage10 - soya percentage30      -3.3916 0.378 130  -8.962  &lt;.0001
- soya percentage10 - milk percentage30      -5.9483 0.535 130 -11.114  &lt;.0001
- soya percentage10 - almond percentage30    -3.7769 0.535 130  -7.057  &lt;.0001
- milk percentage10 - almond percentage10     2.1714 0.378 130   5.738  &lt;.0001
+ soya percentage10 - soya percentage30      -3.3916 0.378 130  -8.962 &lt;0.0001
+ soya percentage10 - milk percentage30      -5.9483 0.535 130 -11.114 &lt;0.0001
+ soya percentage10 - almond percentage30    -3.7769 0.535 130  -7.057 &lt;0.0001
+ milk percentage10 - almond percentage10     2.1714 0.378 130   5.738 &lt;0.0001
  milk percentage10 - soya percentage20       1.2528 0.535 130   2.341  0.3260
  milk percentage10 - milk percentage20      -1.3040 0.378 130  -3.446  0.0212
  milk percentage10 - almond percentage20     0.8674 0.535 130   1.621  0.7918
  milk percentage10 - soya percentage30      -0.8349 0.535 130  -1.560  0.8244
- milk percentage10 - milk percentage30      -3.3916 0.378 130  -8.962  &lt;.0001
+ milk percentage10 - milk percentage30      -3.3916 0.378 130  -8.962 &lt;0.0001
  milk percentage10 - almond percentage30    -1.2202 0.535 130  -2.280  0.3620
  almond percentage10 - soya percentage20    -0.9186 0.535 130  -1.716  0.7354
- almond percentage10 - milk percentage20    -3.4754 0.535 130  -6.493  &lt;.0001
+ almond percentage10 - milk percentage20    -3.4754 0.535 130  -6.493 &lt;0.0001
  almond percentage10 - almond percentage20  -1.3040 0.378 130  -3.446  0.0212
- almond percentage10 - soya percentage30    -3.0063 0.535 130  -5.617  &lt;.0001
- almond percentage10 - milk percentage30    -5.5630 0.535 130 -10.394  &lt;.0001
- almond percentage10 - almond percentage30  -3.3916 0.378 130  -8.962  &lt;.0001
- soya percentage20 - milk percentage20      -2.5567 0.378 130  -6.756  &lt;.0001
+ almond percentage10 - soya percentage30    -3.0063 0.535 130  -5.617 &lt;0.0001
+ almond percentage10 - milk percentage30    -5.5630 0.535 130 -10.394 &lt;0.0001
+ almond percentage10 - almond percentage30  -3.3916 0.378 130  -8.962 &lt;0.0001
+ soya percentage20 - milk percentage20      -2.5567 0.378 130  -6.756 &lt;0.0001
  soya percentage20 - almond percentage20    -0.3853 0.378 130  -1.018  0.9835
- soya percentage20 - soya percentage30      -2.0876 0.378 130  -5.516  &lt;.0001
- soya percentage20 - milk percentage30      -4.6444 0.535 130  -8.678  &lt;.0001
+ soya percentage20 - soya percentage30      -2.0876 0.378 130  -5.516 &lt;0.0001
+ soya percentage20 - milk percentage30      -4.6444 0.535 130  -8.678 &lt;0.0001
  soya percentage20 - almond percentage30    -2.4730 0.535 130  -4.621  0.0003
- milk percentage20 - almond percentage20     2.1714 0.378 130   5.738  &lt;.0001
+ milk percentage20 - almond percentage20     2.1714 0.378 130   5.738 &lt;0.0001
  milk percentage20 - soya percentage30       0.4691 0.535 130   0.876  0.9938
- milk percentage20 - milk percentage30      -2.0876 0.378 130  -5.516  &lt;.0001
+ milk percentage20 - milk percentage30      -2.0876 0.378 130  -5.516 &lt;0.0001
  milk percentage20 - almond percentage30     0.0838 0.535 130   0.156  1.0000
  almond percentage20 - soya percentage30    -1.7023 0.535 130  -3.181  0.0465
- almond percentage20 - milk percentage30    -4.2590 0.535 130  -7.958  &lt;.0001
- almond percentage20 - almond percentage30  -2.0876 0.378 130  -5.516  &lt;.0001
- soya percentage30 - milk percentage30      -2.5567 0.378 130  -6.756  &lt;.0001
+ almond percentage20 - milk percentage30    -4.2590 0.535 130  -7.958 &lt;0.0001
+ almond percentage20 - almond percentage30  -2.0876 0.378 130  -5.516 &lt;0.0001
+ soya percentage30 - milk percentage30      -2.5567 0.378 130  -6.756 &lt;0.0001
  soya percentage30 - almond percentage30    -0.3853 0.378 130  -1.018  0.9835
- milk percentage30 - almond percentage30     2.1714 0.378 130   5.738  &lt;.0001
+ milk percentage30 - almond percentage30     2.1714 0.378 130   5.738 &lt;0.0001
 
 P value adjustment: tukey method for comparing a family of 9 estimates </code></pre>
 </div>
 </div>
 <p>Note that there are 36 pairwise comparisons which is the same number we previously determined.</p>
-<p>Or only perform comparisons of interest, such as performing comparisons against a reference level. Suppose we are only interested in comparing all types of drinks and percentages against “milk with 20% protein content.</p>
+<p>Or we can perform only the comparisons of interest, such as comparisons against a reference level. Suppose we are only interested in comparing all types of drinks and percentages against “milk with 20% protein content”.</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">em</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, <span class="op">~</span> <span class="va">drink</span><span class="op">*</span><span class="va">percentage</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/contrast.html">contrast</a></span><span class="op">(</span></span>
-<span>  <span class="va">em</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/contrast.html">contrast</a></span><span class="op">(</span></span>
+<span>  <span class="va">emm</span>, </span>
 <span>  method <span class="op">=</span> <span class="st">"trt.vs.ctrl"</span>, </span>
 <span>  ref <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">emm</span><span class="op">@</span><span class="va">grid</span><span class="op">$</span><span class="va">drink</span> <span class="op">==</span> <span class="st">"milk"</span> <span class="op">&amp;</span> <span class="va">emm</span><span class="op">@</span><span class="va">grid</span><span class="op">$</span><span class="va">percentage</span> <span class="op">==</span> <span class="st">"20"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast                                estimate    SE  df t.ratio p.value
- soya percentage10 - milk percentage20    -3.8607 0.535 130  -7.213  &lt;.0001
+ soya percentage10 - milk percentage20    -3.8607 0.535 130  -7.213 &lt;0.0001
  milk percentage10 - milk percentage20    -1.3040 0.378 130  -3.446  0.0056
- almond percentage10 - milk percentage20  -3.4754 0.535 130  -6.493  &lt;.0001
- soya percentage20 - milk percentage20    -2.5567 0.378 130  -6.756  &lt;.0001
- almond percentage20 - milk percentage20  -2.1714 0.378 130  -5.738  &lt;.0001
+ almond percentage10 - milk percentage20  -3.4754 0.535 130  -6.493 &lt;0.0001
+ soya percentage20 - milk percentage20    -2.5567 0.378 130  -6.756 &lt;0.0001
+ almond percentage20 - milk percentage20  -2.1714 0.378 130  -5.738 &lt;0.0001
  soya percentage30 - milk percentage20    -0.4691 0.535 130  -0.876  0.8841
- milk percentage30 - milk percentage20     2.0876 0.378 130   5.516  &lt;.0001
+ milk percentage30 - milk percentage20     2.0876 0.378 130   5.516 &lt;0.0001
  almond percentage30 - milk percentage20  -0.0838 0.535 130  -0.156  0.9996
 
 P value adjustment: dunnettx method for 8 tests </code></pre>
 </div>
 </div>
-<p>Suppose we are only interest in testing whether the different drinks differ in how they affect muscle growth when the protein content is 10%.</p>
+<p>Suppose we are only interested in testing whether the different drinks differ in how they affect muscle growth when the protein content is 10%.</p>
 <div class="cell">
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">muscle_mass</span> <span class="op">~</span> <span class="va">drink</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">percentage</span><span class="op">)</span>, <span class="va">data</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">emm_10</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, <span class="op">~</span> <span class="va">drink</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>percentage <span class="op">=</span> <span class="st">"10"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">emm_10</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">model</span>, <span class="op">~</span> <span class="va">drink</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>percentage <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">emm_10</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">emm_10</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> drink  emmean    SE  df lower.CL upper.CL
  soya    0.124 0.345 130   -0.560    0.807
@@ -610,37 +606,37 @@ Confidence level used: 0.95 </code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/contrast.html">contrast</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/contrast.html">contrast</a></span><span class="op">(</span></span>
 <span>  <span class="va">emm_10</span>, </span>
 <span>  method <span class="op">=</span> <span class="st">"pairwise"</span>, </span>
-<span>  adjust <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="co"># no multiple comparisons</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  adjust <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="co"># no multiple comparisons adjustment</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast      estimate    SE  df t.ratio p.value
- soya - milk     -2.557 0.378 130  -6.756  &lt;.0001
+ soya - milk     -2.557 0.378 130  -6.756 &lt;0.0001
  soya - almond   -0.385 0.378 130  -1.018  0.3105
- milk - almond    2.171 0.378 130   5.738  &lt;.0001</code></pre>
+ milk - almond    2.171 0.378 130   5.738 &lt;0.0001</code></pre>
 </div>
 </div>
 </section><section id="testing-non-zero-effects" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="testing-non-zero-effects">
 <span class="header-section-number">4.2</span> Testing non-zero effects</h2>
 <p>Scientists typically test whether the difference between two interventions is greater than, less than, or simply different from&nbsp;<strong>zero</strong>. However, hypothesis testing is not limited to a null value of zero — we can test whether a difference is <strong>greater than (superiority)</strong>, <strong>not worse than (non-inferiority)</strong>, <strong>equivalent to (equivalence)</strong>, or <strong>different from</strong> <strong>any non-zero value</strong>, depending on the scientific question.</p>
 <p>For example, suppose we are interested in testing the following hypothesis:</p>
-<p>H: the difference in <code>muscle_mass</code> between “soya and almond” will not be greater than -1:</p>
+<p>H: the difference in <code>muscle_mass</code> between soya and almond is not lower than -1 (i.e., soya is not worse than almond by more than 1 unit):</p>
 <div class="cell">
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">comparisons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">emm_10</span>, adjust <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> </span>
-<span><span class="va">comparisons</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">comparisons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">emm_10</span>, adjust <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> </span>
+<span><span class="va">comparisons</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast      estimate    SE  df t.ratio p.value
- soya - milk     -2.557 0.378 130  -6.756  &lt;.0001
+ soya - milk     -2.557 0.378 130  -6.756 &lt;0.0001
  soya - almond   -0.385 0.378 130  -1.018  0.3105
- milk - almond    2.171 0.378 130   5.738  &lt;.0001</code></pre>
+ milk - almond    2.171 0.378 130   5.738 &lt;0.0001</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">non_inferiority</span> <span class="op">&lt;-</span> <span class="va">comparisons</span><span class="op">[</span><span class="fl">2</span>, <span class="op">]</span> <span class="op">|&gt;</span> <span class="co"># select first comparison: "soya and almond"</span></span>
-<span>  <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/summary.emmGrid.html">test</a></span><span class="op">(</span>side <span class="op">=</span> <span class="st">"&gt;"</span>, null <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span>          <span class="co"># test if difference is ≤ -1 (non-inferiority test)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">non_inferiority</span> <span class="op">&lt;-</span> <span class="va">comparisons</span><span class="op">[</span><span class="fl">2</span>, <span class="op">]</span> <span class="op">|&gt;</span> <span class="co"># select the second comparison: "soya - almond"</span></span>
+<span>  <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/summary.emmGrid.html">test</a></span><span class="op">(</span>side <span class="op">=</span> <span class="st">"&gt;"</span>, null <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span>          <span class="co"># H0: difference &lt;= -1 (non-inferiority test)</span></span>
 <span></span>
-<span><span class="va">non_inferiority</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">non_inferiority</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast      estimate    SE  df null t.ratio p.value
  soya - almond   -0.385 0.378 130   -1   1.624  0.0534
@@ -648,9 +644,9 @@ Confidence level used: 0.95 </code></pre>
 P values are right-tailed </code></pre>
 </div>
 </div>
-<p>The p-value of 0.0533836 is not smaller than 0.05 so we cannot reject the null hypothesis of inferiority. This conclusion is also supported by the 95% confidence interval, which includes –1 — the non-inferiority margin. Had the lower bound of the confidence interval been greater than –1, we could have rejected the null hypothesis of inferiority and concluded that almond is <strong>not worse</strong> than soya within the specified margin.</p>
+<p>The <em>p</em>-value of 0.053 is not smaller than 0.05 so we cannot reject the null hypothesis of inferiority. This conclusion is also supported by the 95% confidence interval, which includes –1 — the non-inferiority margin. Had the lower bound of the confidence interval been greater than –1, we could have rejected the null hypothesis of inferiority and concluded that almond is <strong>not worse</strong> than soya within the specified margin.</p>
 <div class="cell">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">comparisons</span><span class="op">[</span><span class="fl">2</span>, <span class="op">]</span>, infer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">comparisons</span><span class="op">[</span><span class="fl">2</span>, <span class="op">]</span>, infer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast      estimate    SE  df lower.CL upper.CL t.ratio p.value
  soya - almond   -0.385 0.378 130    -1.13    0.363  -1.018  0.3105
@@ -661,10 +657,10 @@ Confidence level used: 0.95 </code></pre>
 <p>Now suppose we are interested in testing the following hypothesis:</p>
 <p>H: the difference in <code>muscle_mass</code> between “milk and almond” will be greater than 1 (superiority):</p>
 <div class="cell">
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">superiority</span> <span class="op">&lt;-</span> <span class="va">comparisons</span><span class="op">[</span><span class="fl">3</span>, <span class="op">]</span> <span class="op">|&gt;</span> <span class="co"># select first comparison: "milk and almond"</span></span>
-<span>  <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/summary.emmGrid.html">test</a></span><span class="op">(</span>side <span class="op">=</span> <span class="st">"&gt;"</span>, null <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>  <span class="co"># test if difference is &gt; 1 (superiority test)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">superiority</span> <span class="op">&lt;-</span> <span class="va">comparisons</span><span class="op">[</span><span class="fl">3</span>, <span class="op">]</span> <span class="op">|&gt;</span> <span class="co"># select the third comparison: "milk - almond"</span></span>
+<span>  <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/summary.emmGrid.html">test</a></span><span class="op">(</span>side <span class="op">=</span> <span class="st">"&gt;"</span>, null <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>       <span class="co"># H0: difference &lt;= 1 (superiority test)</span></span>
 <span></span>
-<span><span class="va">superiority</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">superiority</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast      estimate    SE  df null t.ratio p.value
  milk - almond     2.17 0.378 130    1   3.095  0.0012
@@ -672,37 +668,37 @@ Confidence level used: 0.95 </code></pre>
 P values are right-tailed </code></pre>
 </div>
 </div>
-<p>The p-value of 0.0012045 is smaller than 0.05 so we can reject the null hypothesis of non-superiority and therefore claim that milk is superior to almond. This conclusion is also supported by the 95% confidence interval, which excludes 1 — the non-superiority margin. Had the upper bound of the confidence interval been smaller than 1, we could have not rejected the null hypothesis of non-superiority.</p>
+<p>The <em>p</em>-value of 0.0012 is smaller than 0.05 so we can reject the null hypothesis of non-superiority and therefore claim that milk is superior to almond. This conclusion is also supported by the 95% confidence interval, which excludes 1, the superiority margin. Had the lower bound of the confidence interval been smaller than 1, we could not have rejected the null hypothesis of non-superiority.</p>
 <div class="cell">
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">comparisons</span><span class="op">[</span><span class="fl">3</span>, <span class="op">]</span>, infer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">comparisons</span><span class="op">[</span><span class="fl">3</span>, <span class="op">]</span>, infer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast      estimate    SE  df lower.CL upper.CL t.ratio p.value
- milk - almond     2.17 0.378 130     1.42     2.92   5.738  &lt;.0001
+ milk - almond     2.17 0.378 130     1.42     2.92   5.738 &lt;0.0001
 
 Confidence level used: 0.95 </code></pre>
 </div>
 </div>
-<section id="predictions" class="level3" data-number="4.2.1"><h3 data-number="4.2.1" class="anchored" data-anchor-id="predictions">
-<span class="header-section-number">4.2.1</span> Predictions</h3>
+</section><section id="predictions" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="predictions">
+<span class="header-section-number">4.3</span> Predictions</h2>
 <p>In the sections above, the goal was to <strong>quantify the influence of</strong> several independent variables on a primary outcome. To do this, we used observed data and focused on understanding relationships — for example, how variables like <code>GPA</code> or <code>nclicks</code> relate to students’ final grades. This approach aligns with <strong>explanatory modeling</strong>, where the emphasis is on interpreting the influence of predictors.</p>
 <p>However, if our goal shifts to estimating a student’s grade based on <strong>new or unobserved data</strong>, then we’re moving into <strong>predictive modeling</strong>. In this context, we’re less concerned with the underlying relationships and more focused on the <strong>accuracy of predictions</strong>. In R, we can use <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> on a fitted model to generate grade estimates for new cases. For instance, in the <code>grades</code> data set, the range of <code>nclicks</code> was:</p>
 <div class="cell">
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">grades</span><span class="op">$</span><span class="va">nclicks</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">grades</span><span class="op">$</span><span class="va">nclicks</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  54 129</code></pre>
 </div>
 </div>
 <p>None of the students clicked more than 129 times.</p>
-<p>We can use <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> to estimate the grade for a higher number of clicks than those observed in the original dataset.</p>
+<p>We can use <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> to estimate the grade for a higher number of clicks than those observed in the original data set. Note that this is extrapolation beyond the observed range, so these predictions should be treated with caution.</p>
 <div class="cell">
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fit a model</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fit a model</span></span>
 <span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">grade</span> <span class="op">~</span> <span class="va">nclicks</span>, <span class="va">grades</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a new data set with new data</span></span>
 <span><span class="va">new_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>nclicks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">150</span>, <span class="fl">160</span>, <span class="fl">170</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Use the fitted model to predict grade based on the new data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model1</span>, <span class="va">new_values</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model1</span>, <span class="va">new_values</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       1        2        3 
 3.085685 3.179977 3.274268 </code></pre>
@@ -712,14 +708,14 @@ Confidence level used: 0.95 </code></pre>
 <p>We can also use <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> with multiple predictors, allowing us to estimate a student’s grade using a combination of values.</p>
 <p>Before doing so, we might want to inspect the range of one of the new predictors. For example, to check the observed range of the <code>lecture</code> variable:</p>
 <div class="cell">
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">grades</span><span class="op">$</span><span class="va">lecture</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">grades</span><span class="op">$</span><span class="va">lecture</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  2 10</code></pre>
 </div>
 </div>
 <p>Suppose we now want to predict grades using both <code>nclicks</code> and <code>lecture</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fit a model with the predictors of interest</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fit a model with the predictors of interest</span></span>
 <span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">grade</span> <span class="op">~</span> <span class="va">nclicks</span> <span class="op">+</span> <span class="va">lecture</span>, <span class="va">grades</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a new data set with new data for each predictor</span></span>
@@ -728,38 +724,38 @@ Confidence level used: 0.95 </code></pre>
 <span>  lecture <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">15</span>, <span class="fl">18</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="va">new_values</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="va">new_values</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       1        2        3 
 3.317920 3.642947 3.967974 </code></pre>
 </div>
 </div>
 <p><code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> again returns three predicted grades, each corresponding to the combination of <code>nclicks</code> and <code>lecture</code> values in the <code>new_values</code> data frame.</p>
-</section></section><section id="transformations" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="transformations">
-<span class="header-section-number">4.3</span> Transformations</h2>
-<section id="log-transformation" class="level3" data-number="4.3.1"><h3 data-number="4.3.1" class="anchored" data-anchor-id="log-transformation">
-<span class="header-section-number">4.3.1</span> Log transformation</h3>
+</section><section id="transformations" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="transformations">
+<span class="header-section-number">4.4</span> Transformations</h2>
+<section id="log-transformation" class="level3" data-number="4.4.1"><h3 data-number="4.4.1" class="anchored" data-anchor-id="log-transformation">
+<span class="header-section-number">4.4.1</span> Log transformation</h3>
 <p>Sometimes the data we collect or analyse does not follow a linear pattern. A common example in exercise science is the gain in strength over time. Initially, strength tends to increase rapidly, but these gains gradually slow and approach a plateau.</p>
 <div class="cell">
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">0001</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># set parameters</span></span>
 <span><span class="va">b0</span> <span class="op">&lt;-</span> <span class="fl">60</span></span>
 <span><span class="va">b1</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
-<span><span class="va">years</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">36</span><span class="op">)</span></span>
+<span><span class="va">months</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">36</span></span>
 <span></span>
 <span><span class="co"># simulate strength gains over a 36-month period </span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">years</span>,</span>
-<span>  y <span class="op">=</span> <span class="va">b0</span> <span class="op">+</span> <span class="va">b1</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">years</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">years</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span></span>
+<span>  x <span class="op">=</span> <span class="va">months</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">b0</span> <span class="op">+</span> <span class="va">b1</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">months</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">months</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># plot data</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"strength gain"</span>, x <span class="op">=</span> <span class="st">"months"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"strength gain"</span>, x <span class="op">=</span> <span class="st">"months"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="mr_3_files/figure-html/linear-strength-gains-1.png" class="img-fluid figure-img" width="672"></p>
@@ -769,7 +765,7 @@ Confidence level used: 0.95 </code></pre>
 </div>
 <p>If we fit a simple linear regression to this type of data, the straight line will fail to capture this curved pattern, resulting in a poor fit compared to a model that accounts for the non-linear relationship.</p>
 <div class="cell">
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, <span class="va">data</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, <span class="va">data</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -793,11 +789,11 @@ F-statistic:   139 on 1 and 34 DF,  p-value: 1.459e-13</code></pre>
 </div>
 <p>When we fit a model that accounts for the non-linear relationship—such as applying a log transformation to capture the rapid early gains and later plateau—the resulting curve provides a far better representation of the observed strength gains than a simple linear model.</p>
 <div class="cell">
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># plot data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># plot data</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"strength gain"</span>, x <span class="op">=</span> <span class="st">"months"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"strength gain"</span>, x <span class="op">=</span> <span class="st">"months"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="mr_3_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
@@ -805,17 +801,14 @@ F-statistic:   139 on 1 and 34 DF,  p-value: 1.459e-13</code></pre>
 </div>
 </div>
 </div>
-<p>Fitting a model that better captures the true shape of the data generally results in smaller residuals improving the goodness of fit metrics like the Residual Standard Error (RSE) and <em>R</em><sup>2</sup>. Briefly, RSE is the <strong>square root of the mean square error</strong> and it shows It shows how much the observed values deviate from the predicted values. The lower the value the better a regression model fits data.</p>
+<p>Fitting a model that better captures the true shape of the data generally results in smaller residuals improving the goodness of fit metrics like the Residual Standard Error (RSE) and <em>R</em><sup>2</sup>. Briefly, the RSE is the <strong>square root of the residual sum of squares divided by the residual degrees of freedom</strong>, and it shows how much the observed values deviate from the predicted values. The lower the value, the better a regression model fits the data.</p>
 <div class="cell">
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">linear_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, <span class="va">data</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">linear_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, <span class="va">data</span><span class="op">)</span></span>
 <span><span class="va">log_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="va">data</span><span class="op">)</span></span>
 <span></span>
-<span></span>
-<span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"linear model"</span>, <span class="st">"log model"</span><span class="op">)</span>,</span>
-<span>  RSE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">resid</a></span><span class="op">(</span><span class="va">linear_model</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="va">linear_model</span><span class="op">$</span><span class="va">df.residual</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">resid</a></span><span class="op">(</span><span class="va">log_model</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="va">log_model</span><span class="op">$</span><span class="va">df.residual</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  RSE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sigma.html">sigma</a></span><span class="op">(</span><span class="va">linear_model</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/sigma.html">sigma</a></span><span class="op">(</span><span class="va">log_model</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  R_squared <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">linear_model</span><span class="op">)</span><span class="op">$</span><span class="va">r.squared</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">log_model</span><span class="op">)</span><span class="op">$</span><span class="va">r.squared</span><span class="op">)</span></span>
@@ -823,9 +816,9 @@ F-statistic:   139 on 1 and 34 DF,  p-value: 1.459e-13</code></pre>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"html"</span>, </span>
 <span>        booktabs <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>        escape <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<table class="table caption-top table-sm table-striped small">
 <thead><tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">model</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">RSE</th>
@@ -846,17 +839,17 @@ F-statistic:   139 on 1 and 34 DF,  p-value: 1.459e-13</code></pre>
 </table>
 </div>
 </div>
-</section><section id="tukkeys-ladder-of-powers" class="level3" data-number="4.3.2"><h3 data-number="4.3.2" class="anchored" data-anchor-id="tukkeys-ladder-of-powers">
-<span class="header-section-number">4.3.2</span> Tukkey’s ladder of powers</h3>
-<p>The Tukkey ladder of powers (sometimes called the Bulging Rule) is a way to change the shape of a skewed distribution so that it becomes normal or nearly-normal. It can also help to reduce error variability (heteroscedasticity).</p>
-<p>Tukkey (1977) created a table of powers (numbers to which data can be raised). It’s possible to have an infinite number of powers, but very few are actually in common use. <a href="#tbl-power-transf" class="quarto-xref">Table&nbsp;<span>4.1</span></a> shows the most commonly used transformations, with exponents ranging from -2 to 2.</p>
+</section><section id="tukeys-ladder-of-powers" class="level3" data-number="4.4.2"><h3 data-number="4.4.2" class="anchored" data-anchor-id="tukeys-ladder-of-powers">
+<span class="header-section-number">4.4.2</span> Tukey’s ladder of powers</h3>
+<p>Tukey’s ladder of powers (sometimes called the Bulging Rule) is a way to change the shape of a skewed distribution so that it becomes normal or nearly normal. It can also help to reduce error variability (heteroscedasticity).</p>
+<p>Tukey (1977) created a table of powers (numbers to which data can be raised). It’s possible to have an infinite number of powers, but very few are actually in common use. <a href="#tbl-power-transf" class="quarto-xref">Table&nbsp;<span>4.1</span></a> shows the most commonly used transformations, with exponents ranging from -2 to 2.</p>
 <div class="cell">
 <div id="tbl-power-transf" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-power-transf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4.1: Types of power transformations
 </figcaption><div aria-describedby="tbl-power-transf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<table class="table cell caption-top table-sm table-striped small">
 <thead><tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Power</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Transformation</th>
@@ -875,8 +868,8 @@ Table&nbsp;4.1: Types of power transformations
 </tr>
 <tr class="odd">
 <td style="text-align: right;">0.5</td>
-<td style="text-align: left;">1/sqrt(Y)</td>
-<td style="text-align: left;">Reciprocal sqrt</td>
+<td style="text-align: left;">sqrt(Y)</td>
+<td style="text-align: left;">Square root</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">0.0</td>
@@ -890,12 +883,12 @@ Table&nbsp;4.1: Types of power transformations
 </tr>
 <tr class="even">
 <td style="text-align: right;">-1.0</td>
-<td style="text-align: left;">1/Y</td>
+<td style="text-align: left;">-1/Y</td>
 <td style="text-align: left;">Reciprocal</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">-2.0</td>
-<td style="text-align: left;">1/Y^2</td>
+<td style="text-align: left;">-1/Y^2</td>
 <td style="text-align: left;">Reciprocal square</td>
 </tr>
 </tbody>
@@ -908,14 +901,14 @@ Table&nbsp;4.1: Types of power transformations
 <p><strong>Example</strong></p>
 <p>Let’s simulate right-skewed data:</p>
 <div class="cell">
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># simulate right-skewed data</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html">rexp</a></span><span class="op">(</span><span class="fl">200</span>, rate <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>  </span>
 <span></span>
 <span><span class="co"># plot data to see distribution</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">y</span>, breaks <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">y</span>, breaks <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="mr_3_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
@@ -925,11 +918,11 @@ Table&nbsp;4.1: Types of power transformations
 </div>
 <p>This histogram shows that the data is not normally distributed, which we can also confirm using <code><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test()</a></code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># asses normality of data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># assess normality of data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>pvalue <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">p.value</span>, scientific <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">p.value</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">p.value</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   statistic method                      pvalue                 
@@ -937,9 +930,9 @@ Table&nbsp;4.1: Types of power transformations
 1     0.807 Shapiro-Wilk normality test 0.000000000000005466922</code></pre>
 </div>
 </div>
-<p>Since the data is skewed, we can apply Tukey’s power transformations using <code><a href="https://rdrr.io/pkg/rcompanion/man/transformTukey.html">transformTukey()</a></code> to try to normalize it. <code><a href="https://rdrr.io/pkg/rcompanion/man/transformTukey.html">transformTukey()</a></code> simply loops through <em>lamdba</em> values and chooses the lambda that results in best normality. For example:</p>
+<p>Since the data is skewed, we can apply Tukey’s power transformations using <code><a href="https://rdrr.io/pkg/rcompanion/man/transformTukey.html">transformTukey()</a></code> to try to normalize it. <code><a href="https://rdrr.io/pkg/rcompanion/man/transformTukey.html">transformTukey()</a></code> simply loops through <em>lambda</em> values and chooses the lambda that results in the best normality. For example:</p>
 <div class="cell">
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rcompanion/man/transformTukey.html">transformTukey</a></span><span class="op">(</span><span class="va">y</span>, plotit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rcompanion/man/transformTukey.html">transformTukey</a></span><span class="op">(</span><span class="va">y</span>, plotit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="mr_3_files/figure-html/transformtukey-1.png" class="img-fluid figure-img" width="672"></p>
@@ -999,240 +992,247 @@ if (lambda &lt;  0){TRANS = -1 * x ^ lambda} </code></pre>
 [197] 0.3736107 0.9838679 1.0987782 1.2320523</code></pre>
 </div>
 </div>
-<p>The argument <code>plotit = TRUE</code> produces plots of: (1) Shapiro-Wilks W vs.&nbsp;lambda, (2) histogram of transformed values and Q-Q plot of transformed values.</p>
+<p>The argument <code>plotit = TRUE</code> produces plots of: (1) Shapiro-Wilk <em>W</em> vs.&nbsp;lambda, (2) a histogram of the transformed values, and (3) a Q-Q plot of the transformed values.</p>
 
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -1240,185 +1240,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./mr_2.html" class="pagination-link" aria-label="Multiple regression 2">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple regression 2</span></span>
       </a>          

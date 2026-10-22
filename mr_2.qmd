@@ -12,8 +12,6 @@ library(tidyverse)  # tidy and wrangle data
 library(broom)      # create tidy tables for statistical objects
 library(effectsize) # calculate effect size
 library(kableExtra) # create tidy tables
-library(tibble)     # create tables
-library(pscl)
 ```
 
 **Load data**
@@ -27,7 +25,7 @@ head(grades, 5)
 For learning purposes, we will add two new variables: `sport`, which is categorical, and `study_time` which is numerical.
 
 ```{r}
-# create a categotical variable
+# create a categorical variable
 grades$sport <- as.factor(rep(c("team", 
                                 "individual"), 
                                 each = 50))
@@ -48,13 +46,13 @@ The overall quality of a model can be assessed by examining `R2` and by comparin
 Let's first fit four models:
 
 ```{r}
-# null modell (no predictor, only y-intercept)
+# null model (no predictor, only y-intercept)
 model0 <- lm(grade ~ 1, grades)
 
 # model with one predictor
 model1 <- lm(grade ~ study_time, grades) 
 
-#model with two predictors
+# model with two predictors
 model2 <- lm(grade ~ study_time + GPA, grades) 
 
 # model with three predictors
@@ -68,35 +66,35 @@ model4 <- lm(grade ~ study_time + GPA + lecture + nclicks, grades)
 
 `R²` indicates the proportion of variance in the dependent variable that is explained by the independent variable(s) in the model. An `R²` value close to 1 indicates that the model explains a large portion of the variance in the outcome variable.
 
-A problem with the `R²`, is that, it will always increase when more variables are added to the model, even if those variables are only weakly associated with the response. A solution is to adjust the `R²` by taking into account the number of predictor variables.
+A problem with `R²` is that it will always increase when more variables are added to the model, even if those variables are only weakly associated with the response. A solution is to use the adjusted `R²`, which takes into account the number of predictor variables.
 
-The adjustment in the “Adjusted R Square” value in the summary output is a correction for the number of x variables included in the prediction model.
+The "Adjusted R-squared" value in the `summary()` output is a correction for the number of predictors included in the model.
 
 ```{r}
-data.frame(
-  model = c("model0", "model1", "model2", "model3", "model4"),
-  R2 = c(summary(model0)$r.squared,
-         summary(model1)$r.squared,
-         summary(model2)$r.squared,
-         summary(model3)$r.squared,
-         summary(model4)$r.squared)
+models <- list(model0 = model0, model1 = model1, model2 = model2, 
+               model3 = model3, model4 = model4)
+
+tibble(
+  model = names(models),
+  R2 = map_dbl(models, \(m) summary(m)$r.squared),
+  adjusted_R2 = map_dbl(models, \(m) summary(m)$adj.r.squared)
 ) |> 
-  kable(digit = 3)
+  kable(digits = 3)
 ```
 
-### Model comparison
+### Comparing nested models with `anova()`
 
-When comparing models, we can use the `anova()` function to formally test whether adding predictors improves model fit by reducing unexplained variation. The idea is to fit a reduced model (e.g., with only predictor) and a full model (e.g., with an additional predictor), and then compare them with `anova(reduced, full)`. The output shows how much residual variance is explained by the additional predictors, along with an *F*-test and *p*-value. A significant result indicates that the new predictors account for meaningful variation in the outcome, demonstrating that the full model provides a statistically better fit than the simpler one.
+When comparing models, we can use the `anova()` function to formally test whether adding predictors improves model fit by reducing unexplained variation. The idea is to fit a reduced model (e.g., with only one predictor) and a full model (e.g., with an additional predictor), and then compare them with `anova(reduced, full)`. The output shows how much residual variance is explained by the additional predictors, along with an *F*-test and *p*-value. A significant result indicates that the new predictors account for meaningful variation in the outcome, demonstrating that the full model provides a statistically better fit than the simpler one.
 
-lm(grades \~ 1) vs lm(grade \~ study_time)
+`lm(grade ~ 1)` vs `lm(grade ~ study_time)`
 
 ```{r}
 anova(model0, model1) |> 
-  tidy() %>%
+  tidy() |> 
   mutate(p.value = format(p.value, scientific = FALSE, digits = 4))
 ```
 
-lm(grade \~ study_time) vs lm(grade \~ study_time + GPA)
+`lm(grade ~ study_time)` vs `lm(grade ~ study_time + GPA)`
 
 ```{r}
 anova(model1, model2) |> 
@@ -104,7 +102,7 @@ anova(model1, model2) |>
   mutate(p.value = format(p.value, scientific = FALSE, digits = 4))
 ```
 
-lm(grade \~ study_time) vs lm(grade \~ study_time + lecture)
+`lm(grade ~ study_time)` vs `lm(grade ~ study_time + GPA + lecture)`
 
 ```{r}
 anova(model1, model3) |> 
@@ -112,7 +110,7 @@ anova(model1, model3) |>
   mutate(p.value = format(p.value, scientific = FALSE, digits = 4))
 ```
 
-lm(grade \~ study_time) + lm(grade \~ study_time + nclicks)
+`lm(grade ~ study_time)` vs `lm(grade ~ study_time + GPA + lecture + nclicks)`
 
 ```{r}
 anova(model1, model4) |> 
@@ -120,9 +118,9 @@ anova(model1, model4) |>
   mutate(p.value = format(p.value, scientific = FALSE, digits = 4))
 ```
 
-Model 1 is the best because adding more predictors did not significantly decrease the residual variance, meaning the extra predictors did not meaningfully improve the model’s fit.
+`model1` is the preferred model because adding more predictors did not significantly decrease the residual variance, meaning the extra predictors did not meaningfully improve the model’s fit.
 
-In linear regression, Residual Sum of Squares (RSS) is **the sum of the squared differences between the actual and predicted values of the dependent variable**. It measures the error remaining in a model and is a key metric for assessing model fit. The goal of ordinary least squares (OLS) linear regression is to minimize the RSS to find the best-fitting regression line that explains the data. A smaller RSS indicates a better-fitting model because it means the predicted values are closer to the actual data points. However, such difference might not be significantly different.
+In linear regression, the Residual Sum of Squares (RSS) is **the sum of the squared differences between the actual and predicted values of the dependent variable**. It measures the error remaining in a model and is a key metric for assessing model fit. The goal of ordinary least squares (OLS) linear regression is to minimize the RSS to find the best-fitting regression line that explains the data. A smaller RSS indicates a better-fitting model because it means the predicted values are closer to the actual data points. However, a smaller RSS does not guarantee that the improvement is statistically significant, which is what the *F*-test in `anova()` assesses.
 
 ## Centering and Standardizing variables
 
@@ -140,30 +138,32 @@ The intercept estimate (`r round(coef(model2)[[1]], 2)`) represents the predicte
 Option 1: create a new variable which contains the centered values of the predictor
 
 ```{r}
-# create a new variable and substract the mean from observed data points
-grades$c_GPA <- grades$GPA - mean(grades$GPA,na.rm = TRUE)
+# create a new variable and subtract the mean from observed data points
+grades$c_GPA <- grades$GPA - mean(grades$GPA, na.rm = TRUE)
 
-# print first 5 rows
+# print first 5 values
 head(grades$c_GPA, 5)
 ```
 
 Option 2: using `scale()`
 
 ```{r}
+# scale() returns a matrix, so we extract the first column with [, 1]
 grades <- grades |> 
-  mutate(c_GPA = scale(grades$GPA, scale = FALSE))
+  mutate(c_GPA = scale(GPA, scale = FALSE)[, 1])
 
 head(grades$c_GPA, 5)
 ```
 
-Note that both options yield the same centered values. With the newly created variable `c_GPA`, we can refit the model:
+Note that both options yield the same centered values. With the newly created variable `c_GPA`, we can refit a simple regression model and compare it with the model using the original `GPA`:
 
 ```{r}
-lm(grade ~ c_GPA, grades) |> 
-  coef()
+coef(lm(grade ~ GPA, grades))
+
+coef(lm(grade ~ c_GPA, grades))
 ```
 
-The intercept now represents the estimated value of `grade` when `GPA`is at its mean (`r mean(grades$grade)`), not at 0. Centering does not change the statistical results of the model—such as the slopes, standard errors, or *p*-values—it only shifts the intercept to a more meaningful reference point.
+The intercept now represents the estimated value of `grade` when `GPA` is at its mean (in a simple regression this equals the mean of `grade`, `r round(mean(grades$grade), 2)`), not at 0. Centering does not change the slope, standard errors, or *p*-value of the predictor; it only shifts the intercept to a more meaningful reference point.
 
 ### Standardizing variables
 
@@ -181,7 +181,7 @@ The regression coefficients for `GPA` and `nclicks` are **unstandardized effect 
 
 Like centering variables, when **standardizing** (or scaling) variables, we center the variables around a mean. However, when standardizing a variable, we are actually converting the variable to a *z*-score, which means we set the mean to 0 and the variance to 1; because the standard deviation is just the square root of the variance, then the standard deviation is also set to 1. So how do you interpret a variable that is standardized?
 
-Let’s assume that we standardized a variable called `age` for a sample of individuals, where `age` is measured in years and its mean is 15 years with a standard deviation of 5. This would mean, for example, that a person who is 20 years old has an `age` that is exactly 1 standard deviation higher than the mean (20 - 5 = 15). If we standardize the `age` variable, then the mean becomes 0 and the standard deviation becomes 1.0. Accordingly, the standardized score for the person who has an `age` of 20 years (which was 1 standard deviation above the mean) would become 1.0. If a person has an `age` of 30, then that means they have a standardized score of 3, which represents 3 standard deviations above the mean (30 - 15 = 15 and 15 / 5 = 3).
+Let’s assume that we standardized a variable called `age` for a sample of individuals, where `age` is measured in years and its mean is 15 years with a standard deviation of 5. This would mean, for example, that a person who is 20 years old has an `age` that is exactly 1 standard deviation higher than the mean (20 - 15 = 5, and 5 / 5 = 1). If we standardize the `age` variable, then the mean becomes 0 and the standard deviation becomes 1.0. Accordingly, the standardized score for the person who has an `age` of 20 years (which was 1 standard deviation above the mean) would become 1.0. If a person has an `age` of 30, then that means they have a standardized score of 3, which represents 3 standard deviations above the mean (30 - 15 = 15 and 15 / 5 = 3).
 
 To **standardize** the regression estimates—that is, to put all variables on the same scale so their coefficients can be directly compared—we have two main options:
 

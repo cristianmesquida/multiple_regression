@@ -4,3 +4,5 @@
 books/
 .DS_Storeç
 exercises/
+
+**/*.quarto_ipynb

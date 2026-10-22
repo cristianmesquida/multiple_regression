@@ -1,0 +1,12 @@
+data <- read.csv("https://raw.githubusercontent.com/plotly/datasets/master/diabetes.csv")
+colnames(data)<-tolower(colnames(data))
+data$outcome<-as.factor(data$outcome)
+head(data, 5)
+data <- read.csv("https://raw.githubusercontent.com/plotly/datasets/master/diabetes.csv")
+colnames(data)<-tolower(colnames(data))
+data$outcome<-as.factor(data$outcome)
+head(data, 5)
+library(faux)       # simulate data
+install.packages("faux")
+install.packages("faux")
+devtools::install_github("scienceverse/faux")
